@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import useEmblaCarousel from "embla-carousel-react"
 import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -61,159 +62,177 @@ const slides = [
 const AUTO_PLAY_INTERVAL = 5000
 
 export function HeroSlider() {
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30 })
+  const [selectedIndex, setSelectedIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  const [direction, setDirection] = useState<"left" | "right">("left")
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const progressRef = useRef<HTMLDivElement>(null)
 
-  const goToSlide = useCallback(
-    (index: number, dir?: "left" | "right") => {
-      if (isTransitioning) return
-      setIsTransitioning(true)
-      setDirection(dir ?? (index > currentSlide ? "left" : "right"))
-      setCurrentSlide(index)
-      setTimeout(() => setIsTransitioning(false), 600)
-    },
-    [currentSlide, isTransitioning]
-  )
+  // Sync selected index with Embla
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+  }, [emblaApi])
 
-  const nextSlide = useCallback(() => {
-    goToSlide((currentSlide + 1) % slides.length, "left")
-  }, [currentSlide, goToSlide])
+  useEffect(() => {
+    if (!emblaApi) return
+    emblaApi.on("select", onSelect)
+    onSelect()
+    return () => {
+      emblaApi.off("select", onSelect)
+    }
+  }, [emblaApi, onSelect])
 
-  const prevSlide = useCallback(() => {
-    goToSlide((currentSlide - 1 + slides.length) % slides.length, "right")
-  }, [currentSlide, goToSlide])
+  // Auto-play logic
+  const resetAutoPlay = useCallback(() => {
+    if (autoPlayRef.current) clearInterval(autoPlayRef.current)
+    if (!isAutoPlaying || !emblaApi) return
+
+    autoPlayRef.current = setInterval(() => {
+      emblaApi.scrollNext()
+    }, AUTO_PLAY_INTERVAL)
+
+    return () => {
+      if (autoPlayRef.current) clearInterval(autoPlayRef.current)
+    }
+  }, [emblaApi, isAutoPlaying])
+
+  useEffect(() => {
+    const cleanup = resetAutoPlay()
+    return cleanup
+  }, [resetAutoPlay])
+
+  // Reset auto-play timer after user interaction
+  useEffect(() => {
+    if (!emblaApi) return
+    const onInteraction = () => resetAutoPlay()
+    emblaApi.on("select", onInteraction)
+    return () => {
+      emblaApi.off("select", onInteraction)
+    }
+  }, [emblaApi, resetAutoPlay])
+
+  // Reset progress bar on slide change
+  useEffect(() => {
+    if (progressRef.current) {
+      progressRef.current.style.animation = "none"
+      void progressRef.current.offsetHeight
+      progressRef.current.style.animation = ""
+    }
+  }, [selectedIndex])
 
   const toggleAutoPlay = useCallback(() => {
     setIsAutoPlaying((prev) => !prev)
   }, [])
 
-  // Auto-play timer
-  useEffect(() => {
-    if (timerRef.current) clearInterval(timerRef.current)
-    if (!isAutoPlaying) return
-
-    timerRef.current = setInterval(nextSlide, AUTO_PLAY_INTERVAL)
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current)
-    }
-  }, [isAutoPlaying, nextSlide])
-
-  // Reset progress bar animation on slide change
-  useEffect(() => {
-    if (progressRef.current) {
-      progressRef.current.style.animation = "none"
-      // eslint-disable-next-line no-unused-expressions
-      progressRef.current.offsetHeight // trigger reflow
-      progressRef.current.style.animation = ""
-    }
-  }, [currentSlide])
-
-  const slide = slides[currentSlide]
-
-  // Determine animation classes based on direction
-  const contentEnter =
-    direction === "left"
-      ? "animate-in fade-in slide-in-from-right-8 duration-600"
-      : "animate-in fade-in slide-in-from-left-8 duration-600"
-  const imageEnter =
-    direction === "left"
-      ? "animate-in fade-in slide-in-from-right-12 duration-700"
-      : "animate-in fade-in slide-in-from-left-12 duration-700"
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
+  const scrollTo = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi])
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30">
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 opacity-30 pointer-events-none">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent" />
         <div className="absolute bottom-0 left-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-secondary/20 via-transparent to-transparent" />
       </div>
 
-      <div className="container relative mx-auto px-4 py-10 md:py-14 lg:py-16">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
-          {/* Left Content */}
-          <div key={`content-${currentSlide}`} className={`flex flex-col justify-center ${contentEnter}`}>
-            <Badge variant="secondary" className="mb-4 w-fit">
-              {slide.badge}
-            </Badge>
-            <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
-              {slide.title}{" "}
-              <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                {slide.highlight}
-              </span>
-            </h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">{slide.description}</p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button size="lg" asChild className="group">
-                <Link href={slide.cta.href}>
-                  {slide.cta.text}
-                  <slide.cta.icon className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </Button>
-              <Button variant="outline" size="lg" asChild className="group bg-transparent">
-                <Link href={slide.secondaryCta.href}>
-                  <slide.secondaryCta.icon className="mr-2 h-4 w-4" />
-                  {slide.secondaryCta.text}
-                </Link>
-              </Button>
-            </div>
+      {/* Embla Carousel viewport */}
+      <div ref={emblaRef} className="overflow-hidden">
+        <div className="flex">
+          {slides.map((slide, index) => (
+            <div key={slide.id} className="min-w-0 flex-[0_0_100%]">
+              <div className="container relative mx-auto px-4 py-10 md:py-14 lg:py-16">
+                <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+                  {/* Left Content */}
+                  <div className="flex flex-col justify-center">
+                    <Badge variant="secondary" className="mb-4 w-fit">
+                      {slide.badge}
+                    </Badge>
+                    <h2 className="text-balance text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
+                      {slide.title}{" "}
+                      <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                        {slide.highlight}
+                      </span>
+                    </h2>
+                    <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
+                      {slide.description}
+                    </p>
+                    <div className="mt-8 flex flex-wrap gap-4">
+                      <Button size="lg" asChild className="group">
+                        <Link href={slide.cta.href}>
+                          {slide.cta.text}
+                          <slide.cta.icon className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                      </Button>
+                      <Button variant="outline" size="lg" asChild className="group bg-transparent">
+                        <Link href={slide.secondaryCta.href}>
+                          <slide.secondaryCta.icon className="mr-2 h-4 w-4" />
+                          {slide.secondaryCta.text}
+                        </Link>
+                      </Button>
+                    </div>
 
-            {/* Stats */}
-            <div className="mt-12 grid grid-cols-3 gap-8">
-              {slide.stats.map((stat, index) => (
-                <div key={index} className="relative">
-                  <p className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                    {stat.value}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Content - Image */}
-          <div key={`image-${currentSlide}`} className={`relative ${imageEnter}`}>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl">
-              <Image
-                src={slide.image || "/placeholder.svg"}
-                alt={slide.title}
-                fill
-                className="object-cover transition-transform duration-700 hover:scale-105"
-                priority
-                loading="eager"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
-
-              {/* Floating Card */}
-              <div className="absolute bottom-6 left-6 right-6 rounded-xl bg-card/90 backdrop-blur-sm p-4 shadow-lg border border-border/50">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary">
-                    <Play className="h-5 w-5 text-primary-foreground ml-0.5" fill="currentColor" />
+                    {/* Stats */}
+                    <div className="mt-12 grid grid-cols-3 gap-8">
+                      {slide.stats.map((stat, statIndex) => (
+                        <div key={statIndex} className="relative">
+                          <p className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            {stat.value}
+                          </p>
+                          <p className="text-sm text-muted-foreground">{stat.label}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold text-card-foreground">Start Your Journey</p>
-                    <p className="text-sm text-muted-foreground">Join thousands of learners today</p>
+
+                  {/* Right Content - Image */}
+                  <div className="relative">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl">
+                      <Image
+                        src={slide.image || "/placeholder.svg"}
+                        alt={slide.title}
+                        fill
+                        className="object-cover transition-transform duration-700 hover:scale-105"
+                        priority={index === 0}
+                        loading={index === 0 ? "eager" : "lazy"}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
+
+                      {/* Floating Card */}
+                      <div className="absolute bottom-6 left-6 right-6 rounded-xl bg-card/90 backdrop-blur-sm p-4 shadow-lg border border-border/50">
+                        <div className="flex items-center gap-4">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary shrink-0">
+                            <Play className="h-5 w-5 text-primary-foreground ml-0.5" fill="currentColor" />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-card-foreground">Start Your Journey</p>
+                            <p className="text-sm text-muted-foreground">
+                              Join thousands of learners today
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Decorative Elements */}
+                    <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full bg-primary/20 blur-2xl" />
+                    <div className="absolute -bottom-4 -left-4 h-32 w-32 rounded-full bg-secondary/20 blur-2xl" />
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Decorative Elements */}
-            <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full bg-primary/20 blur-2xl" />
-            <div className="absolute -bottom-4 -left-4 h-32 w-32 rounded-full bg-secondary/20 blur-2xl" />
-          </div>
+          ))}
         </div>
+      </div>
 
-        {/* Slider Controls */}
-        <div className="mt-12 flex items-center justify-center gap-4">
+      {/* Slider Controls */}
+      <div className="container mx-auto px-4 pb-10 md:pb-14 lg:pb-16">
+        <div className="flex items-center justify-center gap-4">
           <Button
             variant="outline"
             size="icon"
-            onClick={prevSlide}
-            disabled={isTransitioning}
+            onClick={scrollPrev}
             className="h-10 w-10 rounded-full bg-transparent transition-transform duration-200 hover:scale-110 active:scale-95"
             aria-label="Previous slide"
           >
@@ -225,15 +244,14 @@ export function HeroSlider() {
             {slides.map((_, index) => (
               <button
                 key={index}
-                onClick={() => goToSlide(index)}
-                disabled={isTransitioning}
+                onClick={() => scrollTo(index)}
                 className="relative h-2 overflow-hidden rounded-full transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                style={{ width: index === currentSlide ? 40 : 10 }}
+                style={{ width: index === selectedIndex ? 40 : 10 }}
                 aria-label={`Go to slide ${index + 1}`}
-                aria-current={index === currentSlide ? "true" : undefined}
+                aria-current={index === selectedIndex ? "true" : undefined}
               >
                 <span className="absolute inset-0 rounded-full bg-muted-foreground/25" />
-                {index === currentSlide && (
+                {index === selectedIndex && (
                   <span
                     ref={progressRef}
                     className="absolute inset-y-0 left-0 rounded-full bg-primary"
@@ -245,9 +263,6 @@ export function HeroSlider() {
                     }}
                   />
                 )}
-                {index !== currentSlide && (
-                  <span className="absolute inset-0 rounded-full bg-muted-foreground/25 hover:bg-muted-foreground/50 transition-colors duration-200" />
-                )}
               </button>
             ))}
           </div>
@@ -255,15 +270,14 @@ export function HeroSlider() {
           <Button
             variant="outline"
             size="icon"
-            onClick={nextSlide}
-            disabled={isTransitioning}
+            onClick={scrollNext}
             className="h-10 w-10 rounded-full bg-transparent transition-transform duration-200 hover:scale-110 active:scale-95"
             aria-label="Next slide"
           >
             <ChevronRight className="h-5 w-5" />
           </Button>
 
-          {/* Auto-play toggle button */}
+          {/* Auto-play toggle */}
           <Button
             variant="ghost"
             size="icon"
