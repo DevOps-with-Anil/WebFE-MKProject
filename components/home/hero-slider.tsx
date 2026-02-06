@@ -18,8 +18,8 @@ const slides = [
     secondaryCta: { text: "Watch Videos", href: "/videos", icon: Play },
     image: "/images/challenges-thumbnail.jpg",
     stats: [
-      { value: "500+", label: "Articles Published" },
-      { value: "100+", label: "Contests Held" },
+      { value: "500+", label: "Projects" },
+      { value: "100+", label: "Events Hosted" },
       { value: "50K+", label: "Community Members" },
     ],
   },
@@ -151,6 +151,7 @@ export function HeroSlider() {
                 fill
                 className="object-cover transition-transform duration-700 hover:scale-105"
                 priority
+                loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
               

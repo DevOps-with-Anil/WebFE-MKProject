@@ -14,6 +14,18 @@ export const metadata: Metadata = {
     icon: [ ],
     apple: '/apple-icon.png',
   },
+  openGraph: {
+    title: 'Coran Challenge - News, Contests & Videos',
+    description: 'Your destination for Quran learning news, engaging contests, and inspiring video content.',
+    images: ['/images/challenges-thumbnail.jpg'],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Coran Challenge - News, Contests & Videos',
+    description: 'Your destination for Quran learning news, engaging contests, and inspiring video content.',
+    images: ['/images/challenges-thumbnail.jpg'],
+  },
 }
 
 export default function RootLayout({
