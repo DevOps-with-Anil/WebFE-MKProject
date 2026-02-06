@@ -1,7 +1,22 @@
 import Link from "next/link"
-import { ArrowLeft, Clock, User, Calendar, Share2, Facebook, Twitter, Linkedin, MessageCircle, ThumbsUp } from "lucide-react"
+import Image from "next/image"
+import {
+  ArrowLeft,
+  Clock,
+  User,
+  Calendar,
+  Share2,
+  Facebook,
+  Twitter,
+  Linkedin,
+  MessageCircle,
+  ThumbsUp,
+  Eye,
+  Tag,
+} from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
+import { AdPlacement } from "@/components/ad-placement"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -13,7 +28,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 const article = {
   id: 1,
   title: "Community Leaders Announce New Green Initiative",
-  excerpt: "Local organizations partner to launch sustainable programs across the region, aiming to reduce carbon footprint by 30% over the next five years.",
+  excerpt:
+    "Local organizations partner to launch sustainable programs across the region, aiming to reduce carbon footprint by 30% over the next five years.",
   content: `
     <p>In a landmark announcement today, community leaders from across the region unveiled an ambitious new environmental initiative aimed at creating a more sustainable future for all residents.</p>
     
@@ -51,9 +67,16 @@ const article = {
   `,
   category: "Environment",
   author: "Sarah Johnson",
-  authorBio: "Sarah is an environmental journalist with over 10 years of experience covering sustainability and community initiatives.",
+  authorBio:
+    "Sarah is an environmental journalist with over 10 years of experience covering sustainability and community initiatives.",
   date: "January 25, 2026",
   readTime: "5 min read",
+  views: 1243,
+  images: [
+    "/images/news-thumbnail.jpg",
+    "/images/challenges-thumbnail.jpg",
+    "/images/videos-thumbnail.jpg",
+  ],
 }
 
 const relatedArticles = [
@@ -62,18 +85,27 @@ const relatedArticles = [
     title: "Community Garden Expansion Project Approved",
     category: "Environment",
     date: "Jan 21, 2026",
+    views: 842,
+    excerpt:
+      "Local council greenlights the expansion of community gardens as part of the environmental sustainability initiative.",
   },
   {
     id: 3,
     title: "Local Schools Launch Recycling Education Program",
     category: "Education",
     date: "Jan 18, 2026",
+    views: 567,
+    excerpt:
+      "A new curriculum integrating environmental awareness is being rolled out across schools in the district.",
   },
   {
     id: 4,
     title: "Bike Lane Network to Double by Year End",
     category: "Community",
     date: "Jan 15, 2026",
+    views: 398,
+    excerpt:
+      "The city council has approved an ambitious plan to double the existing bike lane network by December 2026.",
   },
 ]
 
@@ -81,14 +113,16 @@ const comments = [
   {
     id: 1,
     author: "John D.",
-    content: "This is exactly what our community needs! I've already signed up to volunteer for the tree planting event.",
+    content:
+      "This is exactly what our community needs! I've already signed up to volunteer for the tree planting event.",
     date: "2 hours ago",
     likes: 12,
   },
   {
     id: 2,
     author: "Maria S.",
-    content: "Great initiative! I hope we can see more programs like this focusing on sustainable transportation options.",
+    content:
+      "Great initiative! I hope we can see more programs like this focusing on sustainable transportation options.",
     date: "4 hours ago",
     likes: 8,
   },
@@ -100,7 +134,7 @@ export default async function ArticlePage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  
+
   return (
     <div className="flex min-h-screen flex-col">
       <Navigation />
@@ -108,25 +142,25 @@ export default async function ArticlePage({
         {/* Article Header */}
         <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-12 md:py-16">
           <div className="container mx-auto px-4">
-            <Link 
-              href="/news" 
+            <Link
+              href="/news"
               className="mb-6 inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to News
             </Link>
-            <Badge className="mb-4">{article.category}</Badge>
-            <h1 className="max-w-4xl text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
-              {article.title}
-            </h1>
-            <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
-              {article.excerpt}
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            {/* Category + Author + Date + Views on same line */}
+            <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+              <Badge className="bg-primary text-primary-foreground">
+                {article.category}
+              </Badge>
               <span className="flex items-center gap-2">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-primary/10 text-primary">
-                    {article.author.split(' ').map(n => n[0]).join('')}
+                <Avatar className="h-6 w-6">
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                    {article.author
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
                   </AvatarFallback>
                 </Avatar>
                 {article.author}
@@ -139,39 +173,110 @@ export default async function ArticlePage({
                 <Clock className="h-4 w-4" />
                 {article.readTime}
               </span>
+              <span className="flex items-center gap-1">
+                <Eye className="h-4 w-4" />
+                {article.views.toLocaleString()} views
+              </span>
             </div>
+            <h1 className="max-w-4xl text-3xl font-bold text-foreground md:text-4xl lg:text-5xl text-balance">
+              {article.title}
+            </h1>
+            <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
+              {article.excerpt}
+            </p>
           </div>
         </section>
 
+        {/* Horizontal Ad */}
+        <div className="container mx-auto px-4 py-4">
+          <AdPlacement orientation="horizontal" />
+        </div>
+
         {/* Article Content */}
-        <section className="py-12">
+        <section className="py-8">
           <div className="container mx-auto px-4">
             <div className="grid gap-8 lg:grid-cols-3">
               {/* Main Content */}
               <div className="lg:col-span-2">
                 {/* Featured Image */}
-                <div className="mb-8 aspect-video overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20" />
-                
+                <div className="mb-8 overflow-hidden rounded-2xl">
+                  <div className="relative aspect-video">
+                    <Image
+                      src={article.images[0]}
+                      alt={article.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+
                 {/* Article Body */}
-                <article 
+                <article
                   className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground"
                   dangerouslySetInnerHTML={{ __html: article.content }}
                 />
 
+                {/* Additional Media Gallery */}
+                {article.images.length > 1 && (
+                  <div className="mt-8">
+                    <h3 className="mb-4 text-lg font-semibold text-foreground">
+                      Media Gallery
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                      {article.images.slice(1).map((img, index) => (
+                        <div
+                          key={index}
+                          className="relative aspect-video overflow-hidden rounded-xl"
+                        >
+                          <Image
+                            src={img}
+                            alt={`Gallery image ${index + 1}`}
+                            fill
+                            className="object-cover transition-transform duration-300 hover:scale-105"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Share Buttons */}
                 <div className="mt-8 border-t border-border pt-8">
-                  <h3 className="mb-4 text-sm font-semibold text-foreground">Share this article</h3>
+                  <h3 className="mb-4 text-sm font-semibold text-foreground">
+                    Share this article
+                  </h3>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="icon">
-                      <Facebook className="h-4 w-4" />
+                    <Button variant="outline" size="icon" asChild>
+                      <a
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`/news/${id}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Share on Facebook"
+                      >
+                        <Facebook className="h-4 w-4" />
+                      </a>
                     </Button>
-                    <Button variant="outline" size="icon">
-                      <Twitter className="h-4 w-4" />
+                    <Button variant="outline" size="icon" asChild>
+                      <a
+                        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`/news/${id}`)}&text=${encodeURIComponent(article.title)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Share on Twitter"
+                      >
+                        <Twitter className="h-4 w-4" />
+                      </a>
                     </Button>
-                    <Button variant="outline" size="icon">
-                      <Linkedin className="h-4 w-4" />
+                    <Button variant="outline" size="icon" asChild>
+                      <a
+                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`/news/${id}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Share on LinkedIn"
+                      >
+                        <Linkedin className="h-4 w-4" />
+                      </a>
                     </Button>
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" size="icon" aria-label="Share">
                       <Share2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -182,19 +287,76 @@ export default async function ArticlePage({
                   <CardContent className="flex gap-4 p-6">
                     <Avatar className="h-16 w-16">
                       <AvatarFallback className="bg-primary text-primary-foreground text-xl">
-                        {article.author.split(' ').map(n => n[0]).join('')}
+                        {article.author
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-semibold text-card-foreground">About {article.author}</h4>
-                      <p className="mt-1 text-sm text-muted-foreground">{article.authorBio}</p>
+                      <h4 className="font-semibold text-card-foreground">
+                        About {article.author}
+                      </h4>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {article.authorBio}
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
 
+                {/* Horizontal Ad below article content */}
+                <div className="mt-8">
+                  <AdPlacement orientation="horizontal" />
+                </div>
+
+                {/* Related Content Section */}
+                <div className="mt-12">
+                  <h3 className="mb-6 text-xl font-bold text-foreground">
+                    Related Content
+                  </h3>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {relatedArticles.map((related) => (
+                      <Card
+                        key={related.id}
+                        className="group overflow-hidden border-0 shadow-md transition-all hover:shadow-lg hover:-translate-y-1"
+                      >
+                        <div className="relative aspect-video overflow-hidden">
+                          <Image
+                            src="/images/news-thumbnail.jpg"
+                            alt={related.title}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
+                          <Badge className="absolute bottom-2 left-2 bg-primary text-primary-foreground text-xs">
+                            {related.category}
+                          </Badge>
+                        </div>
+                        <CardContent className="p-4">
+                          <h4 className="font-semibold text-card-foreground group-hover:text-primary transition-colors line-clamp-2">
+                            <Link href={`/news/${related.id}`}>
+                              {related.title}
+                            </Link>
+                          </h4>
+                          <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                            {related.excerpt}
+                          </p>
+                          <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
+                            <span>{related.date}</span>
+                            <span className="flex items-center gap-1">
+                              <Eye className="h-3 w-3" />
+                              {related.views}
+                            </span>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Comments Section */}
                 <div className="mt-12">
-                  <h3 className="mb-6 text-xl font-bold text-foreground flex items-center gap-2">
+                  <h3 className="mb-6 flex items-center gap-2 text-xl font-bold text-foreground">
                     <MessageCircle className="h-5 w-5" />
                     Comments ({comments.length})
                   </h3>
@@ -202,12 +364,18 @@ export default async function ArticlePage({
                   {/* Comment Form */}
                   <Card className="mb-8 border-0 shadow-md">
                     <CardContent className="p-6">
-                      <h4 className="mb-4 font-semibold text-card-foreground">Leave a Comment</h4>
+                      <h4 className="mb-4 font-semibold text-card-foreground">
+                        Leave a Comment
+                      </h4>
                       <div className="mb-4 grid gap-4 sm:grid-cols-2">
                         <Input placeholder="Your name" />
                         <Input type="email" placeholder="Your email" />
                       </div>
-                      <Textarea placeholder="Write your comment..." className="mb-4" rows={4} />
+                      <Textarea
+                        placeholder="Write your comment..."
+                        className="mb-4"
+                        rows={4}
+                      />
                       <Button>Post Comment</Button>
                     </CardContent>
                   </Card>
@@ -221,20 +389,33 @@ export default async function ArticlePage({
                             <div className="flex items-center gap-3">
                               <Avatar className="h-10 w-10">
                                 <AvatarFallback className="bg-secondary/20 text-secondary">
-                                  {comment.author.split(' ').map(n => n[0]).join('')}
+                                  {comment.author
+                                    .split(" ")
+                                    .map((n) => n[0])
+                                    .join("")}
                                 </AvatarFallback>
                               </Avatar>
                               <div>
-                                <p className="font-semibold text-card-foreground">{comment.author}</p>
-                                <p className="text-xs text-muted-foreground">{comment.date}</p>
+                                <p className="font-semibold text-card-foreground">
+                                  {comment.author}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {comment.date}
+                                </p>
                               </div>
                             </div>
-                            <Button variant="ghost" size="sm" className="text-muted-foreground">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-muted-foreground"
+                            >
                               <ThumbsUp className="mr-1 h-4 w-4" />
                               {comment.likes}
                             </Button>
                           </div>
-                          <p className="mt-3 text-muted-foreground">{comment.content}</p>
+                          <p className="mt-3 text-muted-foreground">
+                            {comment.content}
+                          </p>
                         </CardContent>
                       </Card>
                     ))}
@@ -244,10 +425,15 @@ export default async function ArticlePage({
 
               {/* Sidebar */}
               <aside className="space-y-8">
-                {/* Related Articles */}
+                {/* Vertical Ad */}
+                <AdPlacement orientation="vertical" />
+
+                {/* Sidebar Related Articles */}
                 <Card className="border-0 shadow-md">
                   <CardContent className="p-6">
-                    <h3 className="mb-4 font-bold text-card-foreground">Related Articles</h3>
+                    <h3 className="mb-4 font-bold text-card-foreground">
+                      More Articles
+                    </h3>
                     <div className="space-y-4">
                       {relatedArticles.map((related) => (
                         <div key={related.id} className="group">
@@ -255,15 +441,26 @@ export default async function ArticlePage({
                             {related.category}
                           </Badge>
                           <h4 className="text-sm font-medium text-card-foreground group-hover:text-primary transition-colors">
-                            <Link href={`/news/${related.id}`}>{related.title}</Link>
+                            <Link href={`/news/${related.id}`}>
+                              {related.title}
+                            </Link>
                           </h4>
-                          <p className="mt-1 text-xs text-muted-foreground">{related.date}</p>
+                          <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                            <span>{related.date}</span>
+                            <span className="flex items-center gap-1">
+                              <Eye className="h-3 w-3" />
+                              {related.views}
+                            </span>
+                          </div>
                           <Separator className="mt-4" />
                         </div>
                       ))}
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Vertical Ad */}
+                <AdPlacement orientation="vertical" />
 
                 {/* Newsletter CTA */}
                 <Card className="border-0 bg-primary text-primary-foreground">
@@ -272,9 +469,9 @@ export default async function ArticlePage({
                     <p className="mb-4 text-sm opacity-90">
                       Get the latest news delivered to your inbox.
                     </p>
-                    <Input 
-                      type="email" 
-                      placeholder="Your email" 
+                    <Input
+                      type="email"
+                      placeholder="Your email"
                       className="mb-3 bg-primary-foreground/10 border-primary-foreground/20 placeholder:text-primary-foreground/50"
                     />
                     <Button variant="secondary" className="w-full">

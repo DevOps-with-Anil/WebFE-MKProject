@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Trophy, Users, Clock, Star, Filter, ArrowRight, Bell } from "lucide-react"
+import { Trophy, Users, Clock, Star, Filter, ArrowRight, Bell, Eye, Share2, Facebook, Twitter, Linkedin, Link2 } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Badge } from "@/components/ui/badge"
@@ -13,6 +13,12 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
 import { Pagination } from "@/components/pagination"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const contestTypes = ["All", "Memorization", "Recitation", "Tajweed", "Writing"]
 
@@ -26,6 +32,7 @@ const liveContests = [
     participants: 456,
     daysLeft: 5,
     totalDays: 30,
+    views: 3250,
     status: "Live",
     featured: true,
   },
@@ -38,6 +45,7 @@ const liveContests = [
     participants: 234,
     daysLeft: 12,
     totalDays: 45,
+    views: 1890,
     status: "Live",
     featured: false,
   },
@@ -50,6 +58,7 @@ const liveContests = [
     participants: 189,
     daysLeft: 8,
     totalDays: 30,
+    views: 1240,
     status: "Live",
     featured: false,
   },
@@ -319,9 +328,43 @@ export default function ContestsPage() {
                           </div>
                         </div>
 
-                        <Button className="mt-4 w-full bg-gradient-to-r from-primary to-primary/90" asChild>
-                          <Link href={`/contests/${contest.id}`}>Enter Contest</Link>
-                        </Button>
+                        <div className="mt-4 flex items-center gap-2">
+                          <Button className="flex-1 bg-gradient-to-r from-primary to-primary/90" asChild>
+                            <Link href={`/contests/${contest.id}`}>Enter Contest</Link>
+                          </Button>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="outline" size="icon" className="shrink-0">
+                                <Share2 className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-44">
+                              <DropdownMenuItem asChild>
+                                <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`/contests/${contest.id}`)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                                  <Facebook className="h-4 w-4" /> Facebook
+                                </a>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(contest.title)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                                  <Twitter className="h-4 w-4" /> Twitter / X
+                                </a>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`/contests/${contest.id}`)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                                  <Linkedin className="h-4 w-4" /> LinkedIn
+                                </a>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(`/contests/${contest.id}`)} className="flex items-center gap-2">
+                                <Link2 className="h-4 w-4" /> Copy Link
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+
+                        <div className="mt-3 flex items-center justify-center gap-1 text-xs text-muted-foreground">
+                          <Eye className="h-3 w-3" />
+                          {contest.views?.toLocaleString()} views
+                        </div>
                       </CardContent>
                     </Card>
                   ))}

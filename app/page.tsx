@@ -5,7 +5,7 @@ import { LatestNewsSection } from "@/components/home/latest-news-section"
 import { ContestsSection } from "@/components/home/contests-section"
 import { VideosSection } from "@/components/home/videos-section"
 import { NewsletterSection } from "@/components/home/newsletter-section"
-import { PartnersSection } from "@/components/home/partners-section"
+
 
 export default function HomePage() {
   return (
@@ -17,7 +17,6 @@ export default function HomePage() {
         <ContestsSection />
         <VideosSection />
         <NewsletterSection />
-        <PartnersSection />
       </main>
       <Footer />
     </div>

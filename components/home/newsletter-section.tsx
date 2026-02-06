@@ -20,7 +20,7 @@ export function NewsletterSection() {
   }
 
   return (
-    <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-16 md:py-24">
+    <section id="newsletter-section" className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-16 md:py-24">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-2xl text-center">
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">

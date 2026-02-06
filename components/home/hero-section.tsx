@@ -44,11 +44,11 @@ export function HeroSection() {
             <div className="mt-12 grid grid-cols-3 gap-8">
               <div>
                 <p className="text-3xl font-bold text-primary">500+</p>
-                <p className="text-sm text-muted-foreground">Articles Published</p>
+                <p className="text-sm text-muted-foreground">Projects</p>
               </div>
               <div>
                 <p className="text-3xl font-bold text-secondary">100+</p>
-                <p className="text-sm text-muted-foreground">Contests Held</p>
+                <p className="text-sm text-muted-foreground">Events Hosted</p>
               </div>
               <div>
                 <p className="text-3xl font-bold text-primary">50K+</p>

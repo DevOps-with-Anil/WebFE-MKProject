@@ -4,7 +4,7 @@ import React from "react"
 
 import Link from "next/link"
 import { useState } from "react"
-import { ArrowLeft, Trophy, Users, Clock, Star, Heart, Share2, Upload, Camera, FileText, MessageCircle, CheckCircle2 } from "lucide-react"
+import { ArrowLeft, Trophy, Users, Clock, Star, Heart, Share2, Upload, Camera, FileText, MessageCircle, CheckCircle2, Eye, Facebook, Twitter, Linkedin, Link2 } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Badge } from "@/components/ui/badge"
@@ -17,6 +17,12 @@ import { Separator } from "@/components/ui/separator"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const contest = {
   id: 1,
@@ -71,6 +77,7 @@ const entries = [
     author: "Sarah M.",
     votes: 156,
     comments: 23,
+    views: 1240,
     hasVoted: false,
   },
   {
@@ -79,6 +86,7 @@ const entries = [
     author: "Michael R.",
     votes: 142,
     comments: 18,
+    views: 980,
     hasVoted: true,
   },
   {
@@ -87,6 +95,7 @@ const entries = [
     author: "Emma L.",
     votes: 128,
     comments: 15,
+    views: 856,
     hasVoted: false,
   },
   {
@@ -95,6 +104,7 @@ const entries = [
     author: "David K.",
     votes: 98,
     comments: 12,
+    views: 645,
     hasVoted: false,
   },
   {
@@ -103,6 +113,7 @@ const entries = [
     author: "Ana P.",
     votes: 87,
     comments: 9,
+    views: 523,
     hasVoted: false,
   },
   {
@@ -111,6 +122,7 @@ const entries = [
     author: "James W.",
     votes: 76,
     comments: 8,
+    views: 412,
     hasVoted: false,
   },
 ]
@@ -241,17 +253,22 @@ export default function ContestDetailPage() {
                               </h3>
                               <p className="mt-1 text-sm text-muted-foreground">by {entry.author}</p>
                               
-                              <div className="mt-4 flex items-center justify-between">
-                                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                  <span className="flex items-center gap-1">
-                                    <Heart className={`h-4 w-4 ${hasVoted ? 'fill-primary text-primary' : ''}`} />
-                                    {entry.votes}
-                                  </span>
-                                  <span className="flex items-center gap-1">
-                                    <MessageCircle className="h-4 w-4" />
-                                    {entry.comments}
-                                  </span>
-                                </div>
+                              <div className="mt-3 flex items-center gap-4 text-sm text-muted-foreground">
+                                <span className="flex items-center gap-1">
+                                  <Heart className={`h-4 w-4 ${hasVoted ? 'fill-primary text-primary' : ''}`} />
+                                  {entry.votes}
+                                </span>
+                                <span className="flex items-center gap-1">
+                                  <MessageCircle className="h-4 w-4" />
+                                  {entry.comments}
+                                </span>
+                                <span className="flex items-center gap-1">
+                                  <Eye className="h-4 w-4" />
+                                  {entry.views}
+                                </span>
+                              </div>
+
+                              <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
                                 <Button 
                                   size="sm" 
                                   variant={hasVoted ? "default" : "outline"}
@@ -260,6 +277,34 @@ export default function ContestDetailPage() {
                                   <Heart className={`mr-1 h-4 w-4 ${hasVoted ? 'fill-current' : ''}`} />
                                   {hasVoted ? 'Voted' : 'Vote'}
                                 </Button>
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="sm" className="text-muted-foreground">
+                                      <Share2 className="mr-1 h-4 w-4" />
+                                      Share
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent align="end" className="w-44">
+                                    <DropdownMenuItem asChild>
+                                      <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`/contests/${contest.id}`)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                                        <Facebook className="h-4 w-4" /> Facebook
+                                      </a>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                      <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.title)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                                        <Twitter className="h-4 w-4" /> Twitter / X
+                                      </a>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                      <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`/contests/${contest.id}`)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                                        <Linkedin className="h-4 w-4" /> LinkedIn
+                                      </a>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => navigator.clipboard.writeText(`${typeof window !== 'undefined' ? window.location.origin : ''}/contests/${contest.id}`)} className="flex items-center gap-2">
+                                      <Link2 className="h-4 w-4" /> Copy Link
+                                    </DropdownMenuItem>
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
                               </div>
                             </CardContent>
                           </Card>

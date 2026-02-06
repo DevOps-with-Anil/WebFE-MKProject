@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Globe, Check } from "lucide-react"
+import Image from "next/image"
+import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -11,9 +12,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 const languages = [
-  { code: "en", name: "English", flag: "🇬🇧" },
-  { code: "fr", name: "Français", flag: "🇫🇷" },
-  { code: "ar", name: "العربية", flag: "🇸🇦" },
+  { code: "en", name: "English", flag: "/flags/gb.svg" },
+  { code: "fr", name: "Français", flag: "/flags/fr.svg" },
+  { code: "ar", name: "العربية", flag: "/flags/sa.svg" },
 ]
 
 export function LanguageSwitcher() {
@@ -25,12 +26,20 @@ export function LanguageSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="gap-2">
-          <Globe className="h-4 w-4" />
+          {currentLanguage && (
+            <Image
+              src={currentLanguage.flag}
+              alt={currentLanguage.name}
+              width={20}
+              height={15}
+              className="rounded-sm"
+            />
+          )}
           <span className="hidden sm:inline">{currentLanguage?.name}</span>
           <span className="sm:hidden">{currentLang.toUpperCase()}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
+      <DropdownMenuContent align="end" className="w-44">
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
@@ -38,7 +47,13 @@ export function LanguageSwitcher() {
             className="flex items-center justify-between cursor-pointer"
           >
             <span className="flex items-center gap-2">
-              <span>{lang.flag}</span>
+              <Image
+                src={lang.flag}
+                alt={lang.name}
+                width={20}
+                height={15}
+                className="rounded-sm"
+              />
               <span>{lang.name}</span>
             </span>
             {currentLang === lang.code && (
