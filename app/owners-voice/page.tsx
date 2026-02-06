@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { PageAdLayout } from "@/components/page-ad-layout"
+import { ScrollToTop } from "@/components/scroll-to-top"
 
 export default function OwnersVoicePage() {
   return (
@@ -23,6 +25,7 @@ export default function OwnersVoicePage() {
         </section>
 
         {/* Main Content */}
+        <PageAdLayout>
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="grid gap-12 lg:grid-cols-3">
@@ -190,8 +193,10 @@ export default function OwnersVoicePage() {
             </div>
           </div>
         </section>
+        </PageAdLayout>
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   )
 }
