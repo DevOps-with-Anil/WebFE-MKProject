@@ -1,10 +1,12 @@
 import Link from "next/link"
-import { Users, Target, Heart, Award, ArrowRight } from "lucide-react"
+import Image from "next/image"
+import { Users, Target, Heart, Award, ArrowRight, HandHeart, BookOpen, Utensils, Building2, Package } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
 
 const stats = [
   { label: "Years of Service", value: "15+" },
@@ -56,6 +58,49 @@ const team = [
     name: "David Rodriguez",
     role: "Community Manager",
     bio: "David is the face of our community outreach, connecting with members daily.",
+  },
+]
+
+const campaigns = [
+  {
+    icon: BookOpen,
+    title: "Quran Education for Every Child",
+    description:
+      "Our flagship campaign provides free Quran education to underprivileged children across 15 communities. We supply learning materials, qualified teachers, and safe learning spaces to ensure every child has access to quality Quranic education regardless of their family's financial situation.",
+    image: "/images/campaigns/quran-education.jpg",
+    raised: 42500,
+    goal: 75000,
+    supporters: 1280,
+  },
+  {
+    icon: Utensils,
+    title: "Community Iftar Program",
+    description:
+      "Every Ramadan, we organize large-scale community iftars bringing together families from all backgrounds. This campaign funds meals for over 5,000 people, fosters unity, and ensures no one breaks their fast alone. Your donation covers food, venue, and logistics for these gatherings.",
+    image: "/images/campaigns/community-iftar.jpg",
+    raised: 28000,
+    goal: 50000,
+    supporters: 920,
+  },
+  {
+    icon: Building2,
+    title: "Mosque Renovation & Restoration",
+    description:
+      "Help us restore and renovate aging mosques that serve as vital community centers. This project focuses on structural repairs, accessibility improvements, and preserving beautiful Islamic architecture so these sacred spaces can continue serving generations to come.",
+    image: "/images/campaigns/mosque-renovation.jpg",
+    raised: 95000,
+    goal: 150000,
+    supporters: 2150,
+  },
+  {
+    icon: Package,
+    title: "Humanitarian Aid & Relief",
+    description:
+      "Our humanitarian relief campaign provides essential supplies including food packages, clothing, and medical aid to families facing hardship. We work directly with local communities to identify those most in need and deliver assistance where it matters most.",
+    image: "/images/campaigns/humanitarian-aid.jpg",
+    raised: 61000,
+    goal: 100000,
+    supporters: 1750,
   },
 ]
 
@@ -214,6 +259,138 @@ export default function AboutPage() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Campaigns / Projects Section */}
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4">
+            <div className="mb-12 text-center">
+              <Badge variant="outline" className="mb-4">Our Campaigns</Badge>
+              <h2 className="text-3xl font-bold text-foreground md:text-4xl text-balance">
+                Projects Supporting Our Community
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+                We run impactful campaigns that uplift lives and strengthen our community.
+                Every contribution, big or small, makes a real difference.
+              </p>
+            </div>
+            <div className="grid gap-8 lg:grid-cols-2">
+              {campaigns.map((campaign) => {
+                const Icon = campaign.icon
+                const percentage = Math.round((campaign.raised / campaign.goal) * 100)
+                return (
+                  <Card key={campaign.title} className="overflow-hidden border-0 shadow-lg">
+                    <div className="relative h-56 w-full">
+                      <Image
+                        src={campaign.image}
+                        alt={campaign.title}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
+                      <div className="absolute bottom-4 left-4 flex items-center gap-2">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary">
+                          <Icon className="h-5 w-5 text-primary-foreground" />
+                        </div>
+                        <span className="text-lg font-bold text-background drop-shadow-md">
+                          {campaign.title}
+                        </span>
+                      </div>
+                    </div>
+                    <CardContent className="p-6">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {campaign.description}
+                      </p>
+                      <div className="mt-5">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-semibold text-foreground">
+                            ${campaign.raised.toLocaleString()} raised
+                          </span>
+                          <span className="text-muted-foreground">
+                            of ${campaign.goal.toLocaleString()}
+                          </span>
+                        </div>
+                        <Progress value={percentage} className="mt-2 h-2" />
+                        <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+                          <span>{percentage}% funded</span>
+                          <span className="flex items-center gap-1">
+                            <Heart className="h-3 w-3 text-primary" />
+                            {campaign.supporters.toLocaleString()} supporters
+                          </span>
+                        </div>
+                      </div>
+                      <Button className="mt-5 w-full" size="sm">
+                        <HandHeart className="mr-2 h-4 w-4" />
+                        Donate to This Campaign
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Donation CTA Section */}
+        <section className="bg-primary py-16 md:py-24">
+          <div className="container mx-auto px-4">
+            <div className="mx-auto max-w-3xl text-center">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary-foreground/20">
+                <HandHeart className="h-8 w-8 text-primary-foreground" />
+              </div>
+              <h2 className="text-3xl font-bold text-primary-foreground md:text-4xl text-balance">
+                Your Generosity Can Change Lives
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-lg text-primary-foreground/80 leading-relaxed">
+                Every donation, no matter the size, helps us continue our mission of building 
+                a stronger, more connected, and compassionate community. Support our campaigns 
+                and be a part of something bigger.
+              </p>
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  asChild
+                >
+                  <Link href="/contact">
+                    <HandHeart className="mr-2 h-5 w-5" />
+                    Donate Now
+                  </Link>
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+                  asChild
+                >
+                  <Link href="/contact">
+                    Learn How to Help
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="mt-10 grid grid-cols-3 gap-6">
+                <div>
+                  <p className="text-3xl font-bold text-primary-foreground md:text-4xl">
+                    $226K+
+                  </p>
+                  <p className="mt-1 text-sm text-primary-foreground/70">Total Raised</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-bold text-primary-foreground md:text-4xl">
+                    6,100+
+                  </p>
+                  <p className="mt-1 text-sm text-primary-foreground/70">Generous Donors</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-bold text-primary-foreground md:text-4xl">
+                    4
+                  </p>
+                  <p className="mt-1 text-sm text-primary-foreground/70">Active Campaigns</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
