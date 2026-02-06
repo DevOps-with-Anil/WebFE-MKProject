@@ -3,11 +3,11 @@
 import Image from "next/image"
 
 const partners = [
-  { name: "Islamic Foundation", logo: "/images/partners/Logo-BilletFacile.png" },
-  { name: "Quran Academy", logo: "/images/partners/Logo-HA2M-TECHNOLOGY.jpeg" },
-  { name: "Muslim Education Trust", logo: "/images/partners/Logo-LEPOPULAIRE.jpeg" },
-  { name: "Al-Azhar University", logo: "/images/partners/Logo-Lerenifleur224.jpg" },
-  { name: "Islamic Relief", logo: "/images/partners/Logo-WESTAFRICATV.png" }
+  { name: "BilletFacile", logo: "/images/partners/Logo-BilletFacile.png" },
+  { name: "HA2M-TECHNOLOGY", logo: "/images/partners/Logo-HA2M-TECHNOLOGY.jpeg" },
+  { name: "LEPOPULAIRE", logo: "/images/partners/Logo-LEPOPULAIRE.jpeg" },
+  { name: "Lerenifleur224", logo: "/images/partners/Logo-Lerenifleur224.jpg" },
+  { name: "WESTAFRICATV", logo: "/images/partners/Logo-WESTAFRICATV.png" }
 ]
 
 export function PartnersSection() {
