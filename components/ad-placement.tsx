@@ -1,4 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card"
+"use client"
+
+import Image from "next/image"
+import { useState, useEffect } from "react"
 
 interface AdPlacementProps {
   orientation?: "horizontal" | "vertical"
@@ -7,20 +10,33 @@ interface AdPlacementProps {
   label?: string
 }
 
-const sizeMap = {
-  banner: { horizontal: "min-h-[60px]", vertical: "min-h-[250px]" },
-  leaderboard: { horizontal: "min-h-[90px]", vertical: "min-h-[250px]" },
-  skyscraper: { horizontal: "min-h-[90px]", vertical: "min-h-[600px]" },
-  rectangle: { horizontal: "min-h-[90px]", vertical: "min-h-[250px]" },
-  default: { horizontal: "min-h-[90px]", vertical: "min-h-[250px]" },
+const adImages: Record<string, string[]> = {
+  leaderboard: [
+    "/images/ads/leaderboard-ad.jpg",
+    "/images/ads/leaderboard-ad-2.jpg",
+  ],
+  banner: [
+    "/images/ads/banner-ad.jpg",
+  ],
+  rectangle: [
+    "/images/ads/rectangle-ad.jpg",
+    "/images/ads/rectangle-ad-2.jpg",
+  ],
+  skyscraper: [
+    "/images/ads/skyscraper-ad.jpg",
+  ],
+  default: [
+    "/images/ads/leaderboard-ad.jpg",
+    "/images/ads/rectangle-ad.jpg",
+  ],
 }
 
-const dimensionLabels = {
-  banner: "468 x 60",
-  leaderboard: "728 x 90",
-  skyscraper: "160 x 600",
-  rectangle: "300 x 250",
-  default: "",
+const aspectMap: Record<string, string> = {
+  leaderboard: "aspect-[728/90]",
+  banner: "aspect-[468/60]",
+  rectangle: "aspect-[300/250]",
+  skyscraper: "aspect-[160/600]",
+  default: "aspect-[728/90]",
 }
 
 export function AdPlacement({
@@ -29,45 +45,49 @@ export function AdPlacement({
   className = "",
   label = "Advertisement",
 }: AdPlacementProps) {
-  const minHeight = sizeMap[size]?.[orientation] ?? sizeMap.default[orientation]
-  const dimensions = dimensionLabels[size] ?? ""
+  const images = adImages[size] ?? adImages.default
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    if (images.length <= 1) return
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length)
+    }, 8000)
+    return () => clearInterval(interval)
+  }, [images.length])
+
+  const src = images[index]
+  const aspect = orientation === "vertical"
+    ? (size === "skyscraper" ? aspectMap.skyscraper : aspectMap.rectangle)
+    : (aspectMap[size] ?? aspectMap.default)
 
   return (
-    <Card
-      className={`overflow-hidden border border-dashed border-border/60 bg-muted/20 ${className}`}
-    >
-      <CardContent
-        className={`flex items-center justify-center text-center ${minHeight} ${
-          orientation === "horizontal" ? "px-4 py-3" : "px-4 py-6"
-        }`}
+    <div className={`relative overflow-hidden rounded-lg ${className}`}>
+      <p className="mb-1 text-center text-[10px] font-medium uppercase tracking-widest text-muted-foreground/50">
+        {label}
+      </p>
+      <a
+        href="#"
+        className="group relative block overflow-hidden rounded-lg"
+        onClick={(e) => e.preventDefault()}
+        aria-label={label}
       >
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/50">
-            {label}
-          </p>
-          <div className="mx-auto mt-2 flex h-8 w-8 items-center justify-center rounded-full bg-muted-foreground/5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-4 w-4 text-muted-foreground/30"
-            >
-              <rect x="3" y="3" width="18" height="18" rx="2" />
-              <path d="M3 9h18" />
-              <path d="M9 21V9" />
-            </svg>
-          </div>
-          {dimensions && (
-            <p className="mt-1.5 text-[10px] text-muted-foreground/30">
-              {dimensions}
-            </p>
-          )}
+        <div className={`relative w-full ${aspect}`}>
+          <Image
+            src={src}
+            alt={label}
+            fill
+            className="object-cover transition-opacity duration-500"
+            sizes={
+              orientation === "horizontal"
+                ? "(max-width: 768px) 100vw, 728px"
+                : size === "skyscraper"
+                  ? "160px"
+                  : "300px"
+            }
+          />
         </div>
-      </CardContent>
-    </Card>
+      </a>
+    </div>
   )
 }
