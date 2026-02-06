@@ -245,7 +245,7 @@ export default async function CampaignDetailPage({
       <main className="flex-1">
         {/* Hero Header */}
         <section className="relative">
-          <div className="relative h-72 w-full md:h-96">
+          <div className="relative h-52 w-full md:h-64">
             <Image
               src={campaign.image}
               alt={campaign.title}
@@ -496,7 +496,7 @@ export default async function CampaignDetailPage({
         </section>
 
         {/* Donation Banner */}
-        <section className="bg-primary py-12 md:py-16">
+        <section className="bg-primary py-8 md:py-10">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-2xl font-bold text-primary-foreground md:text-3xl text-balance">
               Every Contribution Makes a Difference

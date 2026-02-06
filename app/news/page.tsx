@@ -189,7 +189,7 @@ export default function NewsPage() {
       <Navigation />
       <main className="flex-1">
         {/* Header */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-12 md:py-16">
+        <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-8 md:py-10">
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/30 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/30 rounded-full blur-3xl" />
@@ -243,7 +243,7 @@ export default function NewsPage() {
             {featuredArticle && selectedCategory === "All" && (
               <Card className="group mb-8 overflow-hidden border-0 shadow-2xl">
                 <div className="grid lg:grid-cols-2">
-                  <div className="relative aspect-video overflow-hidden lg:aspect-auto lg:min-h-[350px]">
+                  <div className="relative aspect-video overflow-hidden lg:aspect-auto lg:min-h-[280px]">
                     <Image
                       src="/images/news-thumbnail.jpg"
                       alt={featuredArticle.title}

@@ -140,7 +140,7 @@ export default async function ArticlePage({
       <Navigation />
       <main className="flex-1">
         {/* Article Header */}
-        <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-12 md:py-16">
+        <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-8 md:py-10">
           <div className="container mx-auto px-4">
             <Link
               href="/news"

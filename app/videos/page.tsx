@@ -139,7 +139,7 @@ export default function VideosPage() {
       <Navigation />
       <main className="flex-1">
         {/* Header */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 py-12 md:py-16">
+        <section className="relative overflow-hidden bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 py-8 md:py-10">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />

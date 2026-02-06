@@ -127,7 +127,7 @@ export default function AboutPage() {
       <Navigation />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-16 md:py-24">
+        <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-8 md:py-10">
           <div className="container mx-auto px-4">
             <Badge variant="outline" className="mb-4">About Us</Badge>
             <h1 className="max-w-4xl text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
@@ -157,7 +157,7 @@ export default function AboutPage() {
         </section>
 
         {/* Mission & Vision */}
-        <section className="py-16 md:py-24">
+        <section className="py-10 md:py-14">
           <div className="container mx-auto px-4">
             <div className="grid gap-12 lg:grid-cols-2">
               <Card className="border-0 bg-primary text-primary-foreground shadow-xl">
@@ -186,7 +186,7 @@ export default function AboutPage() {
         </section>
 
         {/* Values */}
-        <section className="bg-muted/30 py-16 md:py-24">
+        <section className="bg-muted/30 py-10 md:py-14">
           <div className="container mx-auto px-4">
             <div className="mb-12 text-center">
               <Badge variant="outline" className="mb-4">Our Values</Badge>
@@ -216,7 +216,7 @@ export default function AboutPage() {
         </section>
 
         {/* Timeline */}
-        <section className="py-16 md:py-24">
+        <section className="py-10 md:py-14">
           <div className="container mx-auto px-4">
             <div className="mb-12 text-center">
               <Badge variant="outline" className="mb-4">Our Journey</Badge>
@@ -243,7 +243,7 @@ export default function AboutPage() {
         </section>
 
         {/* Team */}
-        <section className="bg-foreground py-16 md:py-24">
+        <section className="bg-foreground py-10 md:py-14">
           <div className="container mx-auto px-4">
             <div className="mb-12 text-center">
               <Badge variant="outline" className="mb-4 border-background/30 text-background/80">Our Team</Badge>
@@ -271,7 +271,7 @@ export default function AboutPage() {
         </section>
 
         {/* Campaigns / Projects Section */}
-        <section className="py-16 md:py-24">
+        <section className="py-10 md:py-14">
           <div className="container mx-auto px-4">
             <div className="mb-12 text-center">
               <Badge variant="outline" className="mb-4">Our Campaigns</Badge>
@@ -349,7 +349,7 @@ export default function AboutPage() {
         </section>
 
         {/* Donation CTA Section */}
-        <section className="bg-primary py-16 md:py-24">
+        <section className="bg-primary py-10 md:py-14">
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl text-center">
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary-foreground/20">
@@ -411,7 +411,7 @@ export default function AboutPage() {
         </section>
 
         {/* CTA */}
-        <section className="py-16 md:py-24">
+        <section className="py-10 md:py-14">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold text-foreground md:text-4xl">
               Ready to Get Involved?

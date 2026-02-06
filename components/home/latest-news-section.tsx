@@ -53,7 +53,7 @@ export function LatestNewsSection() {
   const otherArticles = newsArticles.filter((a) => !a.featured)
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-background to-muted/30 py-16 md:py-24">
+    <section className="relative overflow-hidden bg-gradient-to-b from-background to-muted/30 py-10 md:py-14">
       {/* Background Decoration */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl" />
