@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -27,13 +26,12 @@ export function LanguageSwitcher() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="gap-2">
           {currentLanguage && (
-            <Image
+            <img
               src={currentLanguage.flag}
               alt={currentLanguage.name}
               width={20}
               height={15}
               className="rounded-sm"
-              style={{ width: "20px", height: "auto" }}
             />
           )}
           <span className="hidden sm:inline">{currentLanguage?.name}</span>
@@ -48,13 +46,12 @@ export function LanguageSwitcher() {
             className="flex items-center justify-between cursor-pointer"
           >
             <span className="flex items-center gap-2">
-              <Image
+              <img
                 src={lang.flag}
                 alt={lang.name}
                 width={20}
                 height={15}
                 className="rounded-sm"
-                style={{ width: "20px", height: "auto" }}
               />
               <span>{lang.name}</span>
             </span>
