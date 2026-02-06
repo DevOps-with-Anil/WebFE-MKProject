@@ -140,3 +140,12 @@
 .animate-scroll:hover {
   animation-play-state: paused;
 }
+
+@keyframes hero-progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
