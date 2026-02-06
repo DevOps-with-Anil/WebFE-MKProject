@@ -151,6 +151,7 @@ export function HeroSlider() {
                 fill
                 className="object-cover transition-transform duration-700 hover:scale-105"
                 priority
+                loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
               
