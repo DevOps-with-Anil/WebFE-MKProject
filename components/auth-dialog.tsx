@@ -99,14 +99,14 @@ export function AuthDialog({ children }: AuthDialogProps) {
             <GoogleIcon className="mr-2 h-5 w-5" />
             Continue with Google
           </Button>
-          <Button variant="outline" className="w-full bg-transparent" type="button">
+          {/* <Button variant="outline" className="w-full bg-transparent" type="button">
             <FacebookIcon className="mr-2 h-5 w-5" />
             Continue with Facebook
           </Button>
           <Button variant="outline" className="w-full bg-transparent" type="button">
             <AppleIcon className="mr-2 h-5 w-5" />
             Continue with Apple
-          </Button>
+          </Button> */}
         </div>
 
         <div className="relative my-2">

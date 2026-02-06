@@ -141,7 +141,7 @@ export default function OwnersVoicePage() {
                 </Card>
 
                 {/* Previous Letters */}
-                <div className="mt-8">
+                {/* <div className="mt-8">
                   <h3 className="mb-4 text-xl font-bold text-foreground">Previous Messages</h3>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <Card className="border-0 shadow-sm transition-shadow hover:shadow-md">
@@ -163,7 +163,7 @@ export default function OwnersVoicePage() {
                       </CardContent>
                     </Card>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
