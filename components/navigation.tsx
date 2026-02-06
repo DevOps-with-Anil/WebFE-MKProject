@@ -18,7 +18,7 @@ const navItems = [
   { name: "News", href: "/news", icon: Newspaper },
   { name: "Contests", href: "/contests", icon: Trophy },
   { name: "Videos", href: "/videos", icon: Video },
-  { name: "Projects", href: "/about", icon: FolderOpen },
+  { name: "About", href: "/about", icon: FolderOpen },
   { name: "Contact", href: "/contact", icon: MessageSquare },
 ]
 

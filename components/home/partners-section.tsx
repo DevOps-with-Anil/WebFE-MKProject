@@ -3,14 +3,11 @@
 import Image from "next/image"
 
 const partners = [
-  { name: "Islamic Foundation", logo: "/images/partners/islamic-foundation.jpg" },
-  { name: "Quran Academy", logo: "/images/partners/quran-academy.jpg" },
-  { name: "Muslim Education Trust", logo: "/images/partners/muslim-education-trust.jpg" },
-  { name: "Al-Azhar University", logo: "/images/partners/al-azhar-university.jpg" },
-  { name: "Islamic Relief", logo: "/images/partners/islamic-relief.jpg" },
-  { name: "Dar Al-Quran", logo: "/images/partners/dar-al-quran.jpg" },
-  { name: "Muslim World League", logo: "/images/partners/muslim-world-league.jpg" },
-  { name: "International Quran Foundation", logo: "/images/partners/international-quran-foundation.jpg" },
+  { name: "Islamic Foundation", logo: "/images/partners/Logo-BilletFacile.png" },
+  { name: "Quran Academy", logo: "/images/partners/Logo-HA2M-TECHNOLOGY.jpeg" },
+  { name: "Muslim Education Trust", logo: "/images/partners/Logo-LEPOPULAIRE.jpeg" },
+  { name: "Al-Azhar University", logo: "/images/partners/Logo-Lerenifleur224.jpg" },
+  { name: "Islamic Relief", logo: "/images/partners/Logo-WESTAFRICATV.png" }
 ]
 
 export function PartnersSection() {
