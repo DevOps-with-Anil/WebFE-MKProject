@@ -14,7 +14,7 @@ export default function DMCAPage() {
       <Navigation />
       <main className="flex-1">
         {/* Header */}
-        <section className="bg-gradient-to-br from-destructive/10 via-background to-muted py-12 md:py-16">
+        <section className="bg-gradient-to-br from-destructive/10 via-background to-muted py-8 md:py-10">
           <div className="container mx-auto px-4">
             <Badge variant="outline" className="mb-4 border-destructive/50 text-destructive">
               Legal
