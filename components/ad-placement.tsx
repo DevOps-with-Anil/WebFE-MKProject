@@ -31,12 +31,12 @@ const adImages: Record<string, string[]> = {
   ],
 }
 
-const aspectMap: Record<string, string> = {
-  leaderboard: "aspect-[728/90]",
-  banner: "aspect-[468/60]",
-  rectangle: "aspect-[300/250]",
-  skyscraper: "aspect-[160/600]",
-  default: "aspect-[728/90]",
+const dimensions: Record<string, { width: number; height: number }> = {
+  leaderboard: { width: 728, height: 90 },
+  banner: { width: 468, height: 60 },
+  rectangle: { width: 300, height: 250 },
+  skyscraper: { width: 160, height: 600 },
+  default: { width: 728, height: 90 },
 }
 
 export function AdPlacement({
@@ -57,36 +57,36 @@ export function AdPlacement({
   }, [images.length])
 
   const src = images[index]
-  const aspect = orientation === "vertical"
-    ? (size === "skyscraper" ? aspectMap.skyscraper : aspectMap.rectangle)
-    : (aspectMap[size] ?? aspectMap.default)
+  const dim = orientation === "vertical"
+    ? (size === "skyscraper" ? dimensions.skyscraper : dimensions.rectangle)
+    : (dimensions[size] ?? dimensions.default)
 
   return (
-    <div className={`relative overflow-hidden rounded-lg ${className}`}>
+    <div className={`overflow-hidden rounded-lg ${className}`}>
       <p className="mb-1 text-center text-[10px] font-medium uppercase tracking-widest text-muted-foreground/50">
         {label}
       </p>
       <a
         href="#"
-        className="group relative block overflow-hidden rounded-lg"
+        className="group block overflow-hidden rounded-lg"
         onClick={(e) => e.preventDefault()}
         aria-label={label}
       >
-        <div className={`relative w-full ${aspect}`}>
-          <Image
-            src={src}
-            alt={label}
-            fill
-            className="object-cover transition-opacity duration-500"
-            sizes={
-              orientation === "horizontal"
-                ? "(max-width: 768px) 100vw, 728px"
-                : size === "skyscraper"
-                  ? "160px"
-                  : "300px"
-            }
-          />
-        </div>
+        <Image
+          src={src}
+          alt={label}
+          width={dim.width}
+          height={dim.height}
+          className="block w-full h-auto object-cover transition-opacity duration-500"
+          sizes={
+            orientation === "horizontal"
+              ? "(max-width: 768px) 100vw, 728px"
+              : size === "skyscraper"
+                ? "160px"
+                : "300px"
+          }
+          style={{ width: "100%", height: "auto" }}
+        />
       </a>
     </div>
   )

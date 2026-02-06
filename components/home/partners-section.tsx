@@ -1,14 +1,16 @@
 "use client"
 
+import Image from "next/image"
+
 const partners = [
-  { name: "Islamic Foundation", initials: "IF" },
-  { name: "Quran Academy", initials: "QA" },
-  { name: "Muslim Education Trust", initials: "MET" },
-  { name: "Al-Azhar University", initials: "AAU" },
-  { name: "Islamic Relief", initials: "IR" },
-  { name: "Dar Al-Quran", initials: "DAQ" },
-  { name: "Muslim World League", initials: "MWL" },
-  { name: "International Quran Foundation", initials: "IQF" },
+  { name: "Islamic Foundation", logo: "/images/partners/islamic-foundation.jpg" },
+  { name: "Quran Academy", logo: "/images/partners/quran-academy.jpg" },
+  { name: "Muslim Education Trust", logo: "/images/partners/muslim-education-trust.jpg" },
+  { name: "Al-Azhar University", logo: "/images/partners/al-azhar-university.jpg" },
+  { name: "Islamic Relief", logo: "/images/partners/islamic-relief.jpg" },
+  { name: "Dar Al-Quran", logo: "/images/partners/dar-al-quran.jpg" },
+  { name: "Muslim World League", logo: "/images/partners/muslim-world-league.jpg" },
+  { name: "International Quran Foundation", logo: "/images/partners/international-quran-foundation.jpg" },
 ]
 
 export function PartnersSection() {
@@ -21,20 +23,24 @@ export function PartnersSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {partners.map((partner) => (
-            <div
-              key={partner.name}
-              className="group flex items-center gap-3 rounded-lg border border-border bg-card px-5 py-4 shadow-sm transition-all hover:shadow-md hover:border-primary/30"
-            >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-primary/20 to-secondary/20">
-                <span className="text-xs font-bold text-primary">{partner.initials}</span>
+        <div className="relative overflow-hidden">
+          <div className="flex animate-scroll gap-6">
+            {[...partners, ...partners].map((partner, index) => (
+              <div
+                key={`${partner.name}-${index}`}
+                className="group flex-none"
+              >
+                <div className="relative h-28 w-52 overflow-hidden rounded-xl border border-border shadow-sm transition-all hover:shadow-md hover:border-primary/30">
+                  <Image
+                    src={partner.logo}
+                    alt={partner.name}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
               </div>
-              <span className="text-sm font-medium leading-tight text-card-foreground">
-                {partner.name}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
