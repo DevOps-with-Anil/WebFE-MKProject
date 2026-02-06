@@ -27,6 +27,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { PageAdLayout } from "@/components/page-ad-layout"
+import { ScrollToTop } from "@/components/scroll-to-top"
 
 const categories = ["All", "Memorization", "Community", "Tajweed", "Events", "Education"]
 
@@ -234,6 +236,7 @@ export default function NewsPage() {
         </section>
 
         {/* Articles */}
+        <PageAdLayout>
         <section className="py-12">
           <div className="container mx-auto px-4">
             {/* Featured Article */}
@@ -350,8 +353,10 @@ export default function NewsPage() {
             </div>
           </div>
         </section>
+        </PageAdLayout>
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   )
 }

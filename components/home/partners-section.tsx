@@ -1,7 +1,5 @@
 "use client"
 
-import { useEffect, useState } from "react"
-
 const partners = [
   { name: "Islamic Foundation", initials: "IF" },
   { name: "Quran Academy", initials: "QA" },
@@ -14,15 +12,6 @@ const partners = [
 ]
 
 export function PartnersSection() {
-  const [scrollPosition, setScrollPosition] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setScrollPosition((prev) => (prev + 1) % (partners.length * 200))
-    }, 30)
-    return () => clearInterval(interval)
-  }, [])
-
   return (
     <section className="border-t border-border bg-muted/30 py-12">
       <div className="container mx-auto px-4">
@@ -31,29 +20,21 @@ export function PartnersSection() {
             Our Trusted Partners
           </p>
         </div>
-        
-        <div className="relative overflow-hidden">
-          <div className="absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-muted/30 to-transparent" />
-          <div className="absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-muted/30 to-transparent" />
-          
-          <div 
-            className="flex gap-12 transition-transform duration-100"
-            style={{ transform: `translateX(-${scrollPosition}px)` }}
-          >
-            {[...partners, ...partners, ...partners].map((partner, index) => (
-              <div
-                key={`${partner.name}-${index}`}
-                className="flex shrink-0 items-center gap-3 rounded-lg border border-border bg-card px-6 py-4 shadow-sm transition-all hover:shadow-md hover:border-primary/30"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-secondary/20">
-                  <span className="text-sm font-bold text-primary">{partner.initials}</span>
-                </div>
-                <span className="whitespace-nowrap font-medium text-card-foreground">
-                  {partner.name}
-                </span>
+
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+          {partners.map((partner) => (
+            <div
+              key={partner.name}
+              className="group flex items-center gap-3 rounded-lg border border-border bg-card px-5 py-4 shadow-sm transition-all hover:shadow-md hover:border-primary/30"
+            >
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-primary/20 to-secondary/20">
+                <span className="text-xs font-bold text-primary">{partner.initials}</span>
               </div>
-            ))}
-          </div>
+              <span className="text-sm font-medium leading-tight text-card-foreground">
+                {partner.name}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

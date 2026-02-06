@@ -5,6 +5,8 @@ import { LatestNewsSection } from "@/components/home/latest-news-section"
 import { ContestsSection } from "@/components/home/contests-section"
 import { VideosSection } from "@/components/home/videos-section"
 import { NewsletterSection } from "@/components/home/newsletter-section"
+import { PageAdLayout } from "@/components/page-ad-layout"
+import { ScrollToTop } from "@/components/scroll-to-top"
 
 
 export default function HomePage() {
@@ -13,12 +15,15 @@ export default function HomePage() {
       <Navigation />
       <main className="flex-1">
         <HeroSlider />
-        <LatestNewsSection />
-        <ContestsSection />
-        <VideosSection />
-        <NewsletterSection />
+        <PageAdLayout>
+          <LatestNewsSection />
+          <ContestsSection />
+          <VideosSection />
+          <NewsletterSection />
+        </PageAdLayout>
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   )
 }

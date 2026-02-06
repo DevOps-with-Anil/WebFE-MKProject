@@ -19,6 +19,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { PageAdLayout } from "@/components/page-ad-layout"
+import { ScrollToTop } from "@/components/scroll-to-top"
 
 const contestTypes = ["All", "Memorization", "Recitation", "Tajweed", "Writing"]
 
@@ -198,6 +200,7 @@ export default function ContestsPage() {
         </section>
 
         {/* Contests Content */}
+        <PageAdLayout>
         <section className="py-12">
           <div className="container mx-auto px-4">
             <Tabs defaultValue="live" className="w-full">
@@ -453,8 +456,10 @@ export default function ContestsPage() {
             </Tabs>
           </div>
         </section>
+        </PageAdLayout>
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   )
 }
