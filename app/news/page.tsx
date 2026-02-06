@@ -245,6 +245,7 @@ export default function NewsPage() {
                       src="/images/news-thumbnail.jpg"
                       alt={featuredArticle.title}
                       fill
+                      priority
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-foreground/70 to-transparent" />
