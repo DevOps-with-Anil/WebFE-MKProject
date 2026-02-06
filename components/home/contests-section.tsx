@@ -54,7 +54,7 @@ function getStatusColor(status: string) {
 
 export function ContestsSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 py-16 md:py-24">
+    <section className="relative overflow-hidden bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 py-10 md:py-14">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />

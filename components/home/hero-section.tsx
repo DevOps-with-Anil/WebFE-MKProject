@@ -10,7 +10,7 @@ export function HeroSection() {
     <section className="relative overflow-hidden bg-background">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
       
-      <div className="container relative mx-auto px-4 py-16 md:py-24">
+      <div className="container relative mx-auto px-4 py-10 md:py-14">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-8">
           {/* Left Content */}
           <div className="flex flex-col justify-center">

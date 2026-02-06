@@ -138,7 +138,7 @@ export default function ContestsPage() {
       <Navigation />
       <main className="flex-1">
         {/* Header */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-12 md:py-16">
+        <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-8 md:py-10">
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/30 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/30 rounded-full blur-3xl" />
@@ -221,7 +221,7 @@ export default function ContestsPage() {
                 {featuredContest && (
                   <Card className="mb-8 overflow-hidden border-0 bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 text-background shadow-2xl">
                     <div className="grid md:grid-cols-2">
-                      <div className="relative flex aspect-video items-center justify-center md:aspect-auto md:min-h-[350px] overflow-hidden">
+                      <div className="relative flex aspect-video items-center justify-center md:aspect-auto md:min-h-[280px] overflow-hidden">
                         <Image 
                           src="/images/challenges-thumbnail.jpg" 
                           alt={featuredContest.title}

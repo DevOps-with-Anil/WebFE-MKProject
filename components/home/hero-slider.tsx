@@ -87,7 +87,7 @@ export function HeroSlider() {
         <div className="absolute bottom-0 left-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-secondary/20 via-transparent to-transparent" />
       </div>
 
-      <div className="container relative mx-auto px-4 py-16 md:py-24 lg:py-28">
+      <div className="container relative mx-auto px-4 py-10 md:py-14 lg:py-16">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
           {/* Left Content */}
           <div className="flex flex-col justify-center">
