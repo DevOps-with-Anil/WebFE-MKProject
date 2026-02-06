@@ -33,6 +33,7 @@ export function LanguageSwitcher() {
               width={20}
               height={15}
               className="rounded-sm"
+              style={{ width: "20px", height: "auto" }}
             />
           )}
           <span className="hidden sm:inline">{currentLanguage?.name}</span>
@@ -53,6 +54,7 @@ export function LanguageSwitcher() {
                 width={20}
                 height={15}
                 className="rounded-sm"
+                style={{ width: "20px", height: "auto" }}
               />
               <span>{lang.name}</span>
             </span>
