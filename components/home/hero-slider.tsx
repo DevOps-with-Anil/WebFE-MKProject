@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, ChevronLeft, ChevronRight, Play } from "lucide-react"
+import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
@@ -13,7 +13,8 @@ const slides = [
     badge: "Welcome to Coran Challenge",
     title: "Master the Quran,",
     highlight: "Together",
-    description: "Join our community of Quran learners. Stay updated with the latest news, participate in memorization contests, and explore inspiring video content.",
+    description:
+      "Join our community of Quran learners. Stay updated with the latest news, participate in memorization contests, and explore inspiring video content.",
     cta: { text: "Join a Contest", href: "/contests", icon: ArrowRight },
     secondaryCta: { text: "Watch Videos", href: "/videos", icon: Play },
     image: "/images/challenges-thumbnail.jpg",
@@ -28,7 +29,8 @@ const slides = [
     badge: "New Contest Live",
     title: "Surah Al-Baqarah",
     highlight: "Challenge",
-    description: "Test your memorization skills in our biggest challenge yet. Compete with learners worldwide and win amazing prizes.",
+    description:
+      "Test your memorization skills in our biggest challenge yet. Compete with learners worldwide and win amazing prizes.",
     cta: { text: "Participate Now", href: "/contests", icon: ArrowRight },
     secondaryCta: { text: "View Prizes", href: "/contests", icon: ArrowRight },
     image: "/images/challenges-thumbnail.jpg",
@@ -43,7 +45,8 @@ const slides = [
     badge: "Video Library",
     title: "Learn Quran with",
     highlight: "Expert Teachers",
-    description: "Access hundreds of video lessons from renowned scholars. Learn proper Tajweed, memorization techniques, and Tafsir.",
+    description:
+      "Access hundreds of video lessons from renowned scholars. Learn proper Tajweed, memorization techniques, and Tafsir.",
     cta: { text: "Start Learning", href: "/videos", icon: Play },
     secondaryCta: { text: "Browse All", href: "/videos", icon: ArrowRight },
     image: "/images/videos-thumbnail.jpg",
@@ -55,32 +58,74 @@ const slides = [
   },
 ]
 
+const AUTO_PLAY_INTERVAL = 5000
+
 export function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [direction, setDirection] = useState<"left" | "right">("left")
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const progressRef = useRef<HTMLDivElement>(null)
+
+  const goToSlide = useCallback(
+    (index: number, dir?: "left" | "right") => {
+      if (isTransitioning) return
+      setIsTransitioning(true)
+      setDirection(dir ?? (index > currentSlide ? "left" : "right"))
+      setCurrentSlide(index)
+      setTimeout(() => setIsTransitioning(false), 600)
+    },
+    [currentSlide, isTransitioning]
+  )
 
   const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length)
+    goToSlide((currentSlide + 1) % slides.length, "left")
+  }, [currentSlide, goToSlide])
+
+  const prevSlide = useCallback(() => {
+    goToSlide((currentSlide - 1 + slides.length) % slides.length, "right")
+  }, [currentSlide, goToSlide])
+
+  const toggleAutoPlay = useCallback(() => {
+    setIsAutoPlaying((prev) => !prev)
   }, [])
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
-  }
-
+  // Auto-play timer
   useEffect(() => {
+    if (timerRef.current) clearInterval(timerRef.current)
     if (!isAutoPlaying) return
-    const interval = setInterval(nextSlide, 6000)
-    return () => clearInterval(interval)
+
+    timerRef.current = setInterval(nextSlide, AUTO_PLAY_INTERVAL)
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
   }, [isAutoPlaying, nextSlide])
+
+  // Reset progress bar animation on slide change
+  useEffect(() => {
+    if (progressRef.current) {
+      progressRef.current.style.animation = "none"
+      // eslint-disable-next-line no-unused-expressions
+      progressRef.current.offsetHeight // trigger reflow
+      progressRef.current.style.animation = ""
+    }
+  }, [currentSlide])
 
   const slide = slides[currentSlide]
 
+  // Determine animation classes based on direction
+  const contentEnter =
+    direction === "left"
+      ? "animate-in fade-in slide-in-from-right-8 duration-600"
+      : "animate-in fade-in slide-in-from-left-8 duration-600"
+  const imageEnter =
+    direction === "left"
+      ? "animate-in fade-in slide-in-from-right-12 duration-700"
+      : "animate-in fade-in slide-in-from-left-12 duration-700"
+
   return (
-    <section 
-      className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30"
-      onMouseEnter={() => setIsAutoPlaying(false)}
-      onMouseLeave={() => setIsAutoPlaying(true)}
-    >
+    <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent" />
@@ -90,29 +135,18 @@ export function HeroSlider() {
       <div className="container relative mx-auto px-4 py-10 md:py-14 lg:py-16">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
           {/* Left Content */}
-          <div className="flex flex-col justify-center">
-            <Badge 
-              variant="secondary" 
-              className="mb-4 w-fit animate-in fade-in slide-in-from-left-4 duration-500"
-            >
+          <div key={`content-${currentSlide}`} className={`flex flex-col justify-center ${contentEnter}`}>
+            <Badge variant="secondary" className="mb-4 w-fit">
               {slide.badge}
             </Badge>
-            <h1 
-              className="text-balance text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl animate-in fade-in slide-in-from-left-4 duration-500 delay-100"
-            >
+            <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
               {slide.title}{" "}
               <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 {slide.highlight}
               </span>
             </h1>
-            <p 
-              className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground animate-in fade-in slide-in-from-left-4 duration-500 delay-200"
-            >
-              {slide.description}
-            </p>
-            <div 
-              className="mt-8 flex flex-wrap gap-4 animate-in fade-in slide-in-from-left-4 duration-500 delay-300"
-            >
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">{slide.description}</p>
+            <div className="mt-8 flex flex-wrap gap-4">
               <Button size="lg" asChild className="group">
                 <Link href={slide.cta.href}>
                   {slide.cta.text}
@@ -128,9 +162,7 @@ export function HeroSlider() {
             </div>
 
             {/* Stats */}
-            <div 
-              className="mt-12 grid grid-cols-3 gap-8 animate-in fade-in slide-in-from-left-4 duration-500 delay-500"
-            >
+            <div className="mt-12 grid grid-cols-3 gap-8">
               {slide.stats.map((stat, index) => (
                 <div key={index} className="relative">
                   <p className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
@@ -143,7 +175,7 @@ export function HeroSlider() {
           </div>
 
           {/* Right Content - Image */}
-          <div className="relative animate-in fade-in slide-in-from-right-4 duration-500 delay-200">
+          <div key={`image-${currentSlide}`} className={`relative ${imageEnter}`}>
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl">
               <Image
                 src={slide.image || "/placeholder.svg"}
@@ -154,7 +186,7 @@ export function HeroSlider() {
                 loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
-              
+
               {/* Floating Card */}
               <div className="absolute bottom-6 left-6 right-6 rounded-xl bg-card/90 backdrop-blur-sm p-4 shadow-lg border border-border/50">
                 <div className="flex items-center gap-4">
@@ -181,35 +213,65 @@ export function HeroSlider() {
             variant="outline"
             size="icon"
             onClick={prevSlide}
-            className="h-10 w-10 rounded-full bg-transparent"
+            disabled={isTransitioning}
+            className="h-10 w-10 rounded-full bg-transparent transition-transform duration-200 hover:scale-110 active:scale-95"
             aria-label="Previous slide"
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
-          
-          <div className="flex gap-2">
+
+          {/* Dot indicators with progress bar */}
+          <div className="flex items-center gap-3">
             {slides.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  index === currentSlide 
-                    ? "w-8 bg-primary" 
-                    : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                }`}
+                onClick={() => goToSlide(index)}
+                disabled={isTransitioning}
+                className="relative h-2 overflow-hidden rounded-full transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                style={{ width: index === currentSlide ? 40 : 10 }}
                 aria-label={`Go to slide ${index + 1}`}
-              />
+                aria-current={index === currentSlide ? "true" : undefined}
+              >
+                <span className="absolute inset-0 rounded-full bg-muted-foreground/25" />
+                {index === currentSlide && (
+                  <span
+                    ref={progressRef}
+                    className="absolute inset-y-0 left-0 rounded-full bg-primary"
+                    style={{
+                      animation: isAutoPlaying
+                        ? `hero-progress ${AUTO_PLAY_INTERVAL}ms linear forwards`
+                        : "none",
+                      width: isAutoPlaying ? undefined : "100%",
+                    }}
+                  />
+                )}
+                {index !== currentSlide && (
+                  <span className="absolute inset-0 rounded-full bg-muted-foreground/25 hover:bg-muted-foreground/50 transition-colors duration-200" />
+                )}
+              </button>
             ))}
           </div>
-          
+
           <Button
             variant="outline"
             size="icon"
             onClick={nextSlide}
-            className="h-10 w-10 rounded-full bg-transparent"
+            disabled={isTransitioning}
+            className="h-10 w-10 rounded-full bg-transparent transition-transform duration-200 hover:scale-110 active:scale-95"
             aria-label="Next slide"
           >
             <ChevronRight className="h-5 w-5" />
+          </Button>
+
+          {/* Auto-play toggle button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleAutoPlay}
+            className="h-10 w-10 rounded-full transition-transform duration-200 hover:scale-110 active:scale-95"
+            aria-label={isAutoPlaying ? "Pause auto-scroll" : "Play auto-scroll"}
+          >
+            {isAutoPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
           </Button>
         </div>
       </div>
