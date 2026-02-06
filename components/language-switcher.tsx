@@ -29,9 +29,8 @@ export function LanguageSwitcher() {
             <img
               src={currentLanguage.flag}
               alt={currentLanguage.name}
-              width={20}
-              height={15}
               className="rounded-sm"
+              style={{ width: "20px", height: "15px" }}
             />
           )}
           <span className="hidden sm:inline">{currentLanguage?.name}</span>
@@ -49,9 +48,8 @@ export function LanguageSwitcher() {
               <img
                 src={lang.flag}
                 alt={lang.name}
-                width={20}
-                height={15}
                 className="rounded-sm"
+                style={{ width: "20px", height: "15px" }}
               />
               <span>{lang.name}</span>
             </span>
