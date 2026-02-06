@@ -1,12 +1,11 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Users, Target, Heart, Award, ArrowRight, HandHeart, BookOpen, Utensils, Building2, Package } from "lucide-react"
+import { Users, Target, Heart, Award, ArrowRight, HandHeart, BookOpen, Utensils, Building2, Package, Calendar, MapPin } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 
 const stats = [
   { label: "Years of Service", value: "15+" },
@@ -63,44 +62,52 @@ const team = [
 
 const campaigns = [
   {
+    slug: "quran-education",
     icon: BookOpen,
     title: "Quran Education for Every Child",
-    description:
-      "Our flagship campaign provides free Quran education to underprivileged children across 15 communities. We supply learning materials, qualified teachers, and safe learning spaces to ensure every child has access to quality Quranic education regardless of their family's financial situation.",
+    summary:
+      "Our flagship campaign provided free Quran education to underprivileged children across 15 communities with qualified teachers and learning materials.",
     image: "/images/campaigns/quran-education.jpg",
-    raised: 42500,
-    goal: 75000,
-    supporters: 1280,
+    date: "March - August 2025",
+    location: "15 Communities Across the Region",
+    beneficiaries: "1,280 Children",
+    status: "Completed",
   },
   {
+    slug: "community-iftar",
     icon: Utensils,
     title: "Community Iftar Program",
-    description:
-      "Every Ramadan, we organize large-scale community iftars bringing together families from all backgrounds. This campaign funds meals for over 5,000 people, fosters unity, and ensures no one breaks their fast alone. Your donation covers food, venue, and logistics for these gatherings.",
+    summary:
+      "We organized large-scale community iftars during Ramadan 2025, bringing together families from all backgrounds and serving over 5,000 meals.",
     image: "/images/campaigns/community-iftar.jpg",
-    raised: 28000,
-    goal: 50000,
-    supporters: 920,
+    date: "Ramadan 2025",
+    location: "City Convention Center & Local Mosques",
+    beneficiaries: "5,000+ Attendees",
+    status: "Completed",
   },
   {
+    slug: "mosque-renovation",
     icon: Building2,
     title: "Mosque Renovation & Restoration",
-    description:
-      "Help us restore and renovate aging mosques that serve as vital community centers. This project focuses on structural repairs, accessibility improvements, and preserving beautiful Islamic architecture so these sacred spaces can continue serving generations to come.",
+    summary:
+      "We restored and renovated aging mosques that serve as vital community centers, focusing on structural repairs, accessibility, and preserving Islamic architecture.",
     image: "/images/campaigns/mosque-renovation.jpg",
-    raised: 95000,
-    goal: 150000,
-    supporters: 2150,
+    date: "January - December 2025",
+    location: "3 Historic Mosques",
+    beneficiaries: "2,150+ Worshippers",
+    status: "Completed",
   },
   {
+    slug: "humanitarian-aid",
     icon: Package,
     title: "Humanitarian Aid & Relief",
-    description:
-      "Our humanitarian relief campaign provides essential supplies including food packages, clothing, and medical aid to families facing hardship. We work directly with local communities to identify those most in need and deliver assistance where it matters most.",
+    summary:
+      "Our relief campaign distributed essential food packages, clothing, and medical aid to families facing hardship across multiple neighborhoods.",
     image: "/images/campaigns/humanitarian-aid.jpg",
-    raised: 61000,
-    goal: 100000,
-    supporters: 1750,
+    date: "Ongoing Since 2024",
+    location: "Multiple Neighborhoods",
+    beneficiaries: "1,750+ Families",
+    status: "Ongoing",
   },
 ]
 
@@ -273,57 +280,65 @@ export default function AboutPage() {
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed">
                 We run impactful campaigns that uplift lives and strengthen our community.
-                Every contribution, big or small, makes a real difference.
+                Explore our past and ongoing projects to see the difference we make together.
               </p>
             </div>
             <div className="grid gap-8 lg:grid-cols-2">
               {campaigns.map((campaign) => {
                 const Icon = campaign.icon
-                const percentage = Math.round((campaign.raised / campaign.goal) * 100)
                 return (
-                  <Card key={campaign.title} className="overflow-hidden border-0 shadow-lg">
-                    <div className="relative h-56 w-full">
+                  <Card key={campaign.slug} className="group overflow-hidden border-0 shadow-lg transition-all hover:shadow-xl hover:-translate-y-1">
+                    <div className="relative h-56 w-full overflow-hidden">
                       <Image
                         src={campaign.image}
                         alt={campaign.title}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
-                      <div className="absolute bottom-4 left-4 flex items-center gap-2">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary">
-                          <Icon className="h-5 w-5 text-primary-foreground" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent" />
+                      <Badge
+                        className={`absolute right-4 top-4 ${
+                          campaign.status === "Ongoing"
+                            ? "bg-secondary text-secondary-foreground"
+                            : "bg-primary text-primary-foreground"
+                        }`}
+                      >
+                        {campaign.status}
+                      </Badge>
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <div className="flex items-center gap-2">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary">
+                            <Icon className="h-5 w-5 text-primary-foreground" />
+                          </div>
+                          <h3 className="text-lg font-bold text-background drop-shadow-md">
+                            {campaign.title}
+                          </h3>
                         </div>
-                        <span className="text-lg font-bold text-background drop-shadow-md">
-                          {campaign.title}
-                        </span>
                       </div>
                     </div>
                     <CardContent className="p-6">
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        {campaign.description}
+                        {campaign.summary}
                       </p>
-                      <div className="mt-5">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="font-semibold text-foreground">
-                            ${campaign.raised.toLocaleString()} raised
-                          </span>
-                          <span className="text-muted-foreground">
-                            of ${campaign.goal.toLocaleString()}
-                          </span>
+                      <div className="mt-4 flex flex-col gap-2">
+                        <div className="flex items-center gap-2 text-sm text-foreground">
+                          <Calendar className="h-4 w-4 text-primary" />
+                          <span>{campaign.date}</span>
                         </div>
-                        <Progress value={percentage} className="mt-2 h-2" />
-                        <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                          <span>{percentage}% funded</span>
-                          <span className="flex items-center gap-1">
-                            <Heart className="h-3 w-3 text-primary" />
-                            {campaign.supporters.toLocaleString()} supporters
-                          </span>
+                        <div className="flex items-center gap-2 text-sm text-foreground">
+                          <MapPin className="h-4 w-4 text-primary" />
+                          <span>{campaign.location}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-foreground">
+                          <Users className="h-4 w-4 text-primary" />
+                          <span>{campaign.beneficiaries}</span>
                         </div>
                       </div>
-                      <Button className="mt-5 w-full" size="sm">
-                        <HandHeart className="mr-2 h-4 w-4" />
-                        Donate to This Campaign
+                      <Button className="mt-5 w-full" size="sm" asChild>
+                        <Link href={`/about/campaigns/${campaign.slug}`}>
+                          View Campaign Details
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
                       </Button>
                     </CardContent>
                   </Card>
@@ -341,12 +356,12 @@ export default function AboutPage() {
                 <HandHeart className="h-8 w-8 text-primary-foreground" />
               </div>
               <h2 className="text-3xl font-bold text-primary-foreground md:text-4xl text-balance">
-                Your Generosity Can Change Lives
+                Support Our Community Campaigns
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-lg text-primary-foreground/80 leading-relaxed">
-                Every donation, no matter the size, helps us continue our mission of building 
-                a stronger, more connected, and compassionate community. Support our campaigns 
-                and be a part of something bigger.
+                Your generous donations help us continue running life-changing campaigns. 
+                Every contribution, no matter the size, directly supports families, 
+                children, and communities in need.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-4">
                 <Button
@@ -366,7 +381,7 @@ export default function AboutPage() {
                   asChild
                 >
                   <Link href="/contact">
-                    Learn How to Help
+                    Contact Us to Help
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -374,21 +389,21 @@ export default function AboutPage() {
               <div className="mt-10 grid grid-cols-3 gap-6">
                 <div>
                   <p className="text-3xl font-bold text-primary-foreground md:text-4xl">
-                    $226K+
+                    10K+
                   </p>
-                  <p className="mt-1 text-sm text-primary-foreground/70">Total Raised</p>
+                  <p className="mt-1 text-sm text-primary-foreground/70">People Helped</p>
                 </div>
                 <div>
                   <p className="text-3xl font-bold text-primary-foreground md:text-4xl">
-                    6,100+
+                    15+
                   </p>
-                  <p className="mt-1 text-sm text-primary-foreground/70">Generous Donors</p>
+                  <p className="mt-1 text-sm text-primary-foreground/70">Communities Served</p>
                 </div>
                 <div>
                   <p className="text-3xl font-bold text-primary-foreground md:text-4xl">
                     4
                   </p>
-                  <p className="mt-1 text-sm text-primary-foreground/70">Active Campaigns</p>
+                  <p className="mt-1 text-sm text-primary-foreground/70">Campaigns Delivered</p>
                 </div>
               </div>
             </div>
