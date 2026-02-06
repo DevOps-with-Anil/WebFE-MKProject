@@ -187,9 +187,9 @@ export default async function ArticlePage({
           </div>
         </section>
 
-        {/* Horizontal Ad */}
+        {/* Top Horizontal Ad Banner */}
         <div className="container mx-auto px-4 py-4">
-          <AdPlacement orientation="horizontal" />
+          <AdPlacement orientation="horizontal" size="leaderboard" label="Sponsored" />
         </div>
 
         {/* Article Content */}
@@ -306,7 +306,7 @@ export default async function ArticlePage({
 
                 {/* Horizontal Ad below article content */}
                 <div className="mt-8">
-                  <AdPlacement orientation="horizontal" />
+                  <AdPlacement orientation="horizontal" size="banner" label="Sponsored" />
                 </div>
 
                 {/* Related Content Section */}
@@ -425,8 +425,8 @@ export default async function ArticlePage({
 
               {/* Sidebar */}
               <aside className="space-y-8">
-                {/* Vertical Ad */}
-                <AdPlacement orientation="vertical" />
+                {/* Vertical Ad - Right Side */}
+                <AdPlacement orientation="vertical" size="rectangle" label="Sponsored" />
 
                 {/* Sidebar Related Articles */}
                 <Card className="border-0 shadow-md">
@@ -459,8 +459,8 @@ export default async function ArticlePage({
                   </CardContent>
                 </Card>
 
-                {/* Vertical Ad */}
-                <AdPlacement orientation="vertical" />
+                {/* Vertical Skyscraper Ad */}
+                <AdPlacement orientation="vertical" size="skyscraper" label="Advertisement" />
 
                 {/* Newsletter CTA */}
                 <Card className="border-0 bg-primary text-primary-foreground">
@@ -483,6 +483,11 @@ export default async function ArticlePage({
             </div>
           </div>
         </section>
+
+        {/* Bottom Horizontal Ad Banner */}
+        <div className="container mx-auto px-4 pb-8">
+          <AdPlacement orientation="horizontal" size="leaderboard" label="Sponsored" />
+        </div>
       </main>
       <Footer />
     </div>

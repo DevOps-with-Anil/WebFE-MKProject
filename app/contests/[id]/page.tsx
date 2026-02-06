@@ -7,6 +7,7 @@ import { useState } from "react"
 import { ArrowLeft, Trophy, Users, Clock, Star, Heart, Share2, Upload, Camera, FileText, MessageCircle, CheckCircle2, Eye, Facebook, Twitter, Linkedin, Link2 } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
+import { AdPlacement } from "@/components/ad-placement"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -216,8 +217,13 @@ export default function ContestDetailPage() {
           </div>
         </section>
 
+        {/* Top Horizontal Ad Banner */}
+        <div className="container mx-auto px-4 py-4">
+          <AdPlacement orientation="horizontal" size="leaderboard" label="Sponsored" />
+        </div>
+
         {/* Content */}
-        <section className="py-12">
+        <section className="py-8">
           <div className="container mx-auto px-4">
             <div className="grid gap-8 lg:grid-cols-3">
               {/* Main Content */}
@@ -312,7 +318,12 @@ export default function ContestDetailPage() {
                       })}
                     </div>
 
-                    <div className="mt-8 text-center">
+                    {/* Mid-content Horizontal Ad */}
+                    <div className="mt-6">
+                      <AdPlacement orientation="horizontal" size="banner" label="Sponsored" />
+                    </div>
+
+                    <div className="mt-6 text-center">
                       <Button variant="outline" size="lg">
                         Load More Entries
                       </Button>
@@ -454,8 +465,11 @@ export default function ContestDetailPage() {
 
               {/* Sidebar */}
               <aside className="space-y-6">
+                {/* Vertical Ad - Right Side */}
+                <AdPlacement orientation="vertical" size="rectangle" label="Sponsored" />
+
                 {/* Contest Info Card */}
-                <Card className="sticky top-24 border-0 shadow-lg">
+                <Card className="border-0 shadow-lg">
                   <CardContent className="p-6">
                     <h3 className="mb-4 font-bold text-card-foreground">Contest Info</h3>
                     
@@ -512,10 +526,18 @@ export default function ContestDetailPage() {
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Vertical Skyscraper Ad - Right Side */}
+                <AdPlacement orientation="vertical" size="skyscraper" label="Advertisement" />
               </aside>
             </div>
           </div>
         </section>
+
+        {/* Bottom Horizontal Ad Banner */}
+        <div className="container mx-auto px-4 pb-8">
+          <AdPlacement orientation="horizontal" size="leaderboard" label="Sponsored" />
+        </div>
       </main>
       <Footer />
     </div>

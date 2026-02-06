@@ -5,6 +5,7 @@ import { useState } from "react"
 import { ArrowLeft, Play, Eye, ThumbsUp, Clock, Share2, Facebook, Twitter, MessageCircle, Calendar } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
+import { AdPlacement } from "@/components/ad-placement"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -139,6 +140,11 @@ export default function VideoDetailPage() {
           </div>
         </section>
 
+        {/* Top Horizontal Ad */}
+        <div className="container mx-auto px-4 py-4">
+          <AdPlacement orientation="horizontal" size="leaderboard" label="Sponsored" />
+        </div>
+
         {/* Video Info & Comments */}
         <section className="py-8">
           <div className="container mx-auto px-4">
@@ -208,6 +214,11 @@ export default function VideoDetailPage() {
 
                 <Separator className="my-6" />
 
+                {/* Mid-content Horizontal Ad */}
+                <div className="mb-6">
+                  <AdPlacement orientation="horizontal" size="banner" label="Sponsored" />
+                </div>
+
                 {/* Comments Section */}
                 <div>
                   <h3 className="mb-6 text-xl font-bold text-foreground flex items-center gap-2">
@@ -258,8 +269,11 @@ export default function VideoDetailPage() {
               </div>
 
               {/* Sidebar - Related Videos */}
-              <aside>
-                <h3 className="mb-4 font-bold text-foreground">Related Videos</h3>
+              <aside className="space-y-6">
+                {/* Vertical Ad - Right Side */}
+                <AdPlacement orientation="vertical" size="rectangle" label="Sponsored" />
+
+                <h3 className="font-bold text-foreground">Related Videos</h3>
                 <div className="space-y-4">
                   {relatedVideos.map((related) => (
                     <Card key={related.id} className="group flex overflow-hidden border-0 shadow-sm transition-shadow hover:shadow-md">
@@ -292,7 +306,7 @@ export default function VideoDetailPage() {
                 </div>
 
                 {/* Subscribe CTA */}
-                <Card className="mt-6 border-0 bg-primary text-primary-foreground">
+                <Card className="border-0 bg-primary text-primary-foreground">
                   <CardContent className="p-6">
                     <h4 className="font-bold">Never Miss a Video</h4>
                     <p className="mt-2 text-sm opacity-90">
@@ -308,10 +322,18 @@ export default function VideoDetailPage() {
                     </Button>
                   </CardContent>
                 </Card>
+
+                {/* Vertical Skyscraper Ad */}
+                <AdPlacement orientation="vertical" size="skyscraper" label="Advertisement" />
               </aside>
             </div>
           </div>
         </section>
+
+        {/* Bottom Horizontal Ad Banner */}
+        <div className="container mx-auto px-4 pb-8">
+          <AdPlacement orientation="horizontal" size="leaderboard" label="Sponsored" />
+        </div>
       </main>
       <Footer />
     </div>
