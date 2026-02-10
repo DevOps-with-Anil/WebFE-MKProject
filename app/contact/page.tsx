@@ -13,6 +13,12 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -84,7 +90,7 @@ export default function ContactPage() {
       <Navigation />
       <main className="flex-1">
         {/* Header */}
-        <section className="bg-gradient-to-br from-secondary/10 via-background to-primary/10 py-12 md:py-16">
+        <section className="bg-gradient-to-br from-secondary/10 via-background to-primary/10 py-8 md:py-10">
           <div className="container mx-auto px-4">
             <Badge variant="outline" className="mb-4">Contact</Badge>
             <h1 className="text-4xl font-bold text-foreground md:text-5xl">
@@ -123,7 +129,7 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Form & Map */}
-        <section className="py-12 md:py-16">
+        <section className="py-8 md:py-10">
           <div className="container mx-auto px-4">
             <div className="grid gap-8 lg:grid-cols-2">
               {/* Contact Form */}
@@ -225,10 +231,10 @@ export default function ContactPage() {
               </div>
 
               {/* Map Placeholder */}
-              <div>
+              <div className="flex flex-col">
                 <h2 className="mb-6 text-2xl font-bold text-foreground">Find Us</h2>
-                <Card className="overflow-hidden border-0 shadow-lg">
-                  <div className="flex aspect-[4/3] items-center justify-center bg-muted">
+                <Card className="flex-1 overflow-hidden border-0 shadow-lg">
+                  <div className="flex h-full items-center justify-center bg-muted">
                     <div className="text-center p-8">
                       <MapPin className="mx-auto h-16 w-16 text-muted-foreground/30" />
                       <p className="mt-4 text-lg font-semibold text-muted-foreground">
@@ -249,7 +255,7 @@ export default function ContactPage() {
         </section>
 
         {/* FAQ */}
-        <section className="bg-muted/30 py-12 md:py-16">
+        <section className="bg-muted/30 py-10 md:py-12">
           <div className="container mx-auto px-4">
             <div className="mb-8 text-center">
               <Badge variant="outline" className="mb-4">FAQ</Badge>
@@ -257,15 +263,23 @@ export default function ContactPage() {
                 Frequently Asked Questions
               </h2>
             </div>
-            <div className="mx-auto max-w-3xl space-y-4">
-              {faqItems.map((item, index) => (
-                <Card key={index} className="border-0 shadow-sm">
-                  <CardContent className="p-6">
-                    <h3 className="font-semibold text-card-foreground">{item.question}</h3>
-                    <p className="mt-2 text-muted-foreground">{item.answer}</p>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="mx-auto max-w-3xl">
+              <Card className="border-0 shadow-sm">
+                <CardContent className="p-6">
+                  <Accordion type="single" collapsible className="w-full">
+                    {faqItems.map((item, index) => (
+                      <AccordionItem key={index} value={`faq-${index}`}>
+                        <AccordionTrigger className="text-base font-semibold text-card-foreground hover:no-underline">
+                          {item.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-muted-foreground leading-relaxed">
+                          {item.answer}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>

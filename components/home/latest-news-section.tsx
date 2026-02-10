@@ -53,7 +53,7 @@ export function LatestNewsSection() {
   const otherArticles = newsArticles.filter((a) => !a.featured)
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-background to-muted/30 py-16 md:py-24">
+    <section className="relative overflow-hidden bg-gradient-to-b from-background to-muted/30 py-10 md:py-14">
       {/* Background Decoration */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl" />
@@ -89,6 +89,7 @@ export function LatestNewsSection() {
                   src="/images/news-thumbnail.jpg" 
                   alt="News thumbnail" 
                   fill 
+                  priority
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent" />
@@ -128,7 +129,7 @@ export function LatestNewsSection() {
           {/* Other Articles */}
           {otherArticles.map((article) => (
             <Card key={article.id} className="group flex flex-col border-0 shadow-md transition-all hover:shadow-xl hover:-translate-y-1 sm:flex-row">
-              <div className="relative aspect-video w-full overflow-hidden sm:aspect-square sm:w-40 shrink-0">
+              <div className="relative h-48 w-full overflow-hidden sm:h-auto sm:w-40 sm:min-h-[160px] shrink-0">
                 <Image 
                   src="/images/news-thumbnail.jpg" 
                   alt="News thumbnail" 

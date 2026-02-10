@@ -7,12 +7,25 @@ import './globals.css'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://coranchallenge.com'),
   title: 'Coran Challenge - News, Contests & Videos',
   description: 'Your destination for Quran learning news, engaging contests, and inspiring video content.',
   generator: 'v0.app',
   icons: {
     icon: [ ],
     apple: '/apple-icon.png',
+  },
+  openGraph: {
+    title: 'Coran Challenge - News, Contests & Videos',
+    description: 'Your destination for Quran learning news, engaging contests, and inspiring video content.',
+    images: ['/images/challenges-thumbnail.jpg'],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Coran Challenge - News, Contests & Videos',
+    description: 'Your destination for Quran learning news, engaging contests, and inspiring video content.',
+    images: ['/images/challenges-thumbnail.jpg'],
   },
 }
 

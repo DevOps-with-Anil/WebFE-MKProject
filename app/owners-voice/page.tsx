@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { PageAdLayout } from "@/components/page-ad-layout"
+import { ScrollToTop } from "@/components/scroll-to-top"
 
 export default function OwnersVoicePage() {
   return (
@@ -13,7 +15,7 @@ export default function OwnersVoicePage() {
       <Navigation />
       <main className="flex-1">
         {/* Header */}
-        <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-16 md:py-24">
+        <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-8 md:py-10">
           <div className="container mx-auto px-4">
             <Badge variant="outline" className="mb-4">{"Owner's Voice"}</Badge>
             <h1 className="max-w-3xl text-4xl font-bold text-foreground md:text-5xl">
@@ -23,7 +25,8 @@ export default function OwnersVoicePage() {
         </section>
 
         {/* Main Content */}
-        <section className="py-12 md:py-16">
+        <PageAdLayout>
+        <section className="py-8 md:py-10">
           <div className="container mx-auto px-4">
             <div className="grid gap-12 lg:grid-cols-3">
               {/* Founder Image & Info */}
@@ -138,7 +141,7 @@ export default function OwnersVoicePage() {
                 </Card>
 
                 {/* Previous Letters */}
-                <div className="mt-8">
+                {/* <div className="mt-8">
                   <h3 className="mb-4 text-xl font-bold text-foreground">Previous Messages</h3>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <Card className="border-0 shadow-sm transition-shadow hover:shadow-md">
@@ -160,14 +163,14 @@ export default function OwnersVoicePage() {
                       </CardContent>
                     </Card>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
         </section>
 
         {/* CTA */}
-        <section className="bg-foreground py-12 md:py-16">
+        <section className="bg-foreground py-8 md:py-10">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-2xl font-bold text-background md:text-3xl">
               Join Our Community
@@ -190,8 +193,10 @@ export default function OwnersVoicePage() {
             </div>
           </div>
         </section>
+        </PageAdLayout>
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   )
 }
